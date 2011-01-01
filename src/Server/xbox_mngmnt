@@ -1,0 +1,40 @@
+#! /bin/sh
+# Basic support for IRIX style chkconfig
+###
+# chkconfig: 235 98 55
+# description: Manages the services you are controlling with the chkconfig command
+###
+
+SERVER_PATH='/opt'
+
+case "$1" in
+  start)
+        echo -n "Starting xbox_mngmnt"
+        #To run it as root:
+        $SERVER_PATH/xbox_management_server&
+        #Or to run it as some other user:
+        echo "."
+        ;;
+  stop)
+        echo -n "Stopping xbox_mngmnt"
+        #To run it as root:
+        /usr/bin/killall xbox_management_server
+        echo "."
+        ;;
+
+  status)
+	  if [ "$(pidof xbox_management_server)" ]
+	  then
+		echo "xbox_management_server is running"
+	  else
+	  	echo "xbox_management_server is not running"
+      	  fi
+	  ;;	  
+
+  *)
+        echo "Usage: /sbin/service xbox_mngmnt {start|stop}"
+        exit 1
+esac
+
+exit 0
+
