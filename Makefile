@@ -12,7 +12,7 @@ src/Server/xbox_management_server.o: src/Server/xbox_management_server.c
 	$(CC) $(CCFLAGS) -o $@ -c $?
 
 bundle:
-	tar -czf xbox_management.tar.gz --exclude *.o --exclude .* --exclude *DS_Store* Makefile Doxyfile README.txt src/*
+	tar -czf xbox_management.tar.gz --exclude=*.o --exclude=.* --exclude=*DS_Store* Makefile Doxyfile README.txt src/*
 
 doc:
 	doxygen Doxyfile
