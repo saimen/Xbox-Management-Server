@@ -122,7 +122,7 @@ bool clientKnown(const char *clientName) {
  * 	are administered
  */
 void registerBox(const char *clientName, char *path) {
-	mode_t permissions = S_IXUSR|S_IWGRP|S_IXGRP|S_IRWXO;
+	mode_t permissions = S_IRUSR|S_IWUSR|S_IRGRP;
 	strcat(path, clientName);
 	if ( open(path, O_CREAT, permissions ) < 0) {
 		/* logging and error handling */
