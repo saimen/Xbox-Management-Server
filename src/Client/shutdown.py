@@ -24,11 +24,6 @@ message="shutdown"
 ## pings the server to test if it is running
 # @return true if the server is running, false if it is powered-off
 def pingServer():
-	#xbox_ip=xbmc.getIPAddress()
-	#xbox_address=(xbox_ip,33334)
-	
-	#server_ip="192.168.1.111"
-	#server_address=(server_ip,445)
 	
 	# ping the server first
 	ping=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -108,6 +103,13 @@ def recieveAnswer(connection):
 		dialog.ok('Shutdown.py', 'recieveAnswer','Couldn\'t recieve message')
 		del dialog
 		return False
+
+##
+#
+def connectionFailure(error):
+	dialog=xbmcgui.Dialog()
+	dialog.ok('Startup.py', error)
+	del dialog
 
 # shut xbox down
 ret = pingServer()
