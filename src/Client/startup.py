@@ -7,37 +7,57 @@ xbox_ip=xbmc.getIPAddress()
 xbox_address=(xbox_ip,33333)
 xbox_address2=(xbox_ip,33301)
 xbox_mngmnt_address=(xbox_ip, 33302)
+message="startup"
+
+
 # ping the server first
-
-ping=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ping.settimeout(5.0)
-ping.bind(xbox_address)
-try:
-	ping.connect(server_address)
-	dialog7=xbmcgui.Dialog()
-	dialog7.ok("Startup.py", "Server läuft bereits")
-	ping.close()
-	del ping
-	del dialog7
-except: 
+def pingServer():
 	
-	#close connection
-	ping.close()
-	del ping
+	# ping the server first
+	ping=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	ping.settimeout(5.0)
+	ping.bind(xbox_address)
+		
+	try:
+		ping.connect(server_address)
+		ping.close()
+		del ping
+		return True
+	#server laeuft
+	except: 
+	#server ist aus
+		#close connection
+		ping.close()
+		del ping
+		return False
 
+##
+#
+def isStarted():
+	dialog7=xbmcgui.Dialog()
+	dialog7.ok("Startup.py", "Server laeuft bereits")
+	del dialog7
+
+
+##
+#
+def wakeUp():
 	## send wake up packet to server
 	wakeup=socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	wakeup.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 	wakeup.sendto('\xff'*6+'\x00\x0b\x6a\x60\x79\x6a'*16, ("255.255.255.255",80))
+	#close and delete wakeup
+	wakeup.close()
+	del wakeup
+
 
 	xbmc.executebuiltin('XBMC.WakeOnLan(00:0B:6A:60:79:6A)')
 
 	# 00:0B:6A:60:79:6A = Server MAC
 
-	#close and delete wakeup
-	wakeup.close()
-	del wakeup
-
+##
+#
+def startingServer():
 	# print waiting screen
 	dialog = xbmcgui.DialogProgress()
 	dialog.create("Server wird gestartet...")
@@ -52,68 +72,35 @@ except:
 	del dialog
 
 
-'''	
-
-	# ping server
+##
+#
+def registerClient():
+	# create file on server
+	# seems to need server app 
 	try:
-		ping2=socket.socket(socket.AF_INET, sock.SOCK_STREAM)
-		ping2.bind(xbox_address2)
-		ping2.connect(server_address)
-		dialog6=xbmcgui.Dialog()
-		dialog6.ok('Startup.py', 'Server wurde erfolgreich gestartet')
-		del dialog6
-		ping2.close()
-		del ping2
-	except: 
-		# couldn't start server
-		dialog5=xbmcgui.Dialog()
-		dialog5.ok('Startup.py', 'Server konnte nicht gestartet werden...')
-		del dialog5
-		try:
-			ping2.close()
-		except:
-			del ping2
-		del ping2
-		'''
-
-# create file on server
-# seems to need server app 
-
-connection=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-connection.bind(xbox_mngmnt_address)
-try:
-	connection.connect(server_xbox_mngmnt)
-except:
-	dialog3=xbmcgui.Dialog()
-	dialog3.ok('Startup.py', 'Couldn\'t connect to Server, trying to wait and connect again...')
-	del dialog3
-	connection.close()
-	del connection
-	try:
-		time.sleep(5)
-		connection2.connect(server_xbox_mngmnt)
+		connection=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		connection.bind(xbox_mngmnt_address)
+		connection.connect(server_xbox_mngmnt)
+		connection.send(message)
+		return True
 	except:
-		dialog3=xbmcgui.Dialog()
-		dialog3.ok('Startup.py', 'Couldn\'t connect to Server')
-		del dialog3
-		connection2.close()
-		del connection2
+		connection.close()
+		connectionFailure('Couldn\'t connect to Server')
+		del connection
+		return False
 
+##
+#
+def connectionFailure(error):
+	dialog=xbmcgui.Dialog()
+	dialog.ok('Startup.py', error)
+	del dialog
 
-
-
-
-message="startup"
-try:
-	connection.send(message)
-	connection.close()
-	del connection
-except:
-	dialog4=xbmcgui.Dialog()
-	dialog4.ok('Startup.py', 'Couldn\'t send message')
-	del dialog4
-# could give problems, test number of bytes sent if problems occur
-
-
-
-
+ret = pingServer()
+if ret == True :
+	registerClient()
+	isStarted()
+else:
+	wakeUp()
+	startingServer()
+	registerClient()
