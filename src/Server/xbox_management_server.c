@@ -10,7 +10,7 @@
 
 int main(int argc, char **argv) {
 	int sockfd, newSocket;
-	socklen_t clientLength;
+	socklen_t clientLength = sizeof(clientAddress);
 	char clientName[INET_ADDRESTRELEN];
 	struct sockaddr_in clientAddress, serverAddress;
 	char* path;
@@ -52,12 +52,11 @@ int main(int argc, char **argv) {
 	while(true) {
 
 		/* warten auf eingehende verbindungen */
-		clientLength = sizeof(clientAddress);
-
 		if( (newSocket = accept(sockfd, (struct sockaddr*) &clientAddress, &clientLength)) < 0 ) {
 			/* logging and error handling */
 			syslog(LOG_ERR, "error while accepting");
 		}
+		/* Hier neuen Thread starten */
 
 		if( (inet_ntop(AF_INET, &clientAddress.sin_addr.s_addr, clientName, sizeof(clientName)) == NULL ) ) {
 			/* logging and error handling */
@@ -65,6 +64,7 @@ int main(int argc, char **argv) {
 		}
 		
 		syslog(LOG_INFO, "Connected to %s", clientName);
+
 		if ( clientKnown(clientName) ) {
 			nread = processCommunication(newSocket, clientName, path);
 		}else{
@@ -83,6 +83,7 @@ int main(int argc, char **argv) {
 			/* logging and error handling */
 			syslog(LOG_ERR, "Couldn't close connected Socket to %s", clientName);
 		}
+		/* Hier Thread beenden */
 
 	}
 	free(path);
