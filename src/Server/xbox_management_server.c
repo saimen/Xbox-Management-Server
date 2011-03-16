@@ -71,7 +71,6 @@ int main(int argc, char **argv) {
 			syslog(LOG_INFO, "Unknown Client");
 		}
 
-
 		if( nread == 0 ) {
 			/* verbindung von client geschlossen */
 			syslog(LOG_INFO, "Client %s has closed connection", clientName);
