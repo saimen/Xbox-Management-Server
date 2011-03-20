@@ -68,13 +68,25 @@ int main(int argc, char **argv) {
 }
 
 /**
+ * Exithandler.....
+ *
+ *
+ */
+void exit_handler_mem (void *arg) {
+	struct data *mem = (struct data*) arg;
+	free(mem->clientAddress);
+	free(mem);
+}
+
+/**
  * Threadfunction......
  *
  *
  */
 void* startThread(void *arg) {
 	pthread_detach(pthread_self());
-	struct data *client = (struct data*) arg;
+	struct data *client = (struct data *) arg;
+	pthread_cleanup_push( exit_handler_mem, (void *)arg );
 	char *clientName = (char *)malloc((sizeof(char) * INET_ADDRESTRELEN));
 	int nread = -1; 
 
@@ -102,6 +114,8 @@ void* startThread(void *arg) {
 		/* logging and error handling */
 		syslog(LOG_ERR, "Couldn't close connected Socket to %s", clientName);
 	}
+	free(clientName);
+	pthread_cleanup_pop( 1 );
 	pthread_exit((void *)pthread_self());
 }
 
@@ -136,7 +150,9 @@ bool clientKnown(const char *clientName) {
  * 	are administered
  */
 void registerBox(const char *clientName,const char *path) {
-	// TODO: make threadsafe 
+	// TODO: make threadsafe
+	// TODO: create directory if it doesn't exist
+	// TODO: check if file allready exists
 	char* registry_path;
 	if ( (registry_path = (char *)malloc(sizeof(char)*33)) == NULL ) {
 		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
@@ -222,6 +238,7 @@ int processCommunication(const int socket_fd, const char *clientName,const char 
  */
 void unregisterBox(const char *clientName,const char *path) {
 	//TODO: make thread safe
+	//TODO: check if path and file exist
 	char* registry_path;
 	if ( (registry_path = (char *)malloc(sizeof(char)*33)) == NULL ) {
 		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
@@ -245,6 +262,7 @@ void unregisterBox(const char *clientName,const char *path) {
  */
 int boxesRegistered(const char *path) {
 	// TODO: make thread safe
+	// TODO: catch case if directory doesn't exist
 	return (countEntriesInDir(path) - 2);
 }
 
