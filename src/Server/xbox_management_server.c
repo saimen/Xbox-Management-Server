@@ -10,9 +10,9 @@
 
 int main(int argc, char **argv) {
 	int sockfd, newSocket;
-	socklen_t clientLength = sizeof(clientAddress);
 	char clientName[INET_ADDRESTRELEN];
 	struct sockaddr_in clientAddress, serverAddress;
+	socklen_t clientLength = sizeof(clientAddress);
 	char* path;
 	int nread = -1; 
 	
