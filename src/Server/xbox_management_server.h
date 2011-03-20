@@ -81,6 +81,7 @@
 #include <syslog.h> 
 #include <dirent.h> //scandir()
 #include <sys/stat.h> // setting permissions
+#include <pthread.h>
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -114,10 +115,11 @@
 #endif
 
 
+void* startThread(void *arg);
 bool clientKnown(const char *clientName);
-void registerBox(const char *clientName, char *path);
-int processCommunication(const int socket_fd, const char *clientName, char *path);
-void unregisterBox(const char *clientName, char *path);
+void registerBox(const char *clientName,const char *path);
+int processCommunication(const int socket_fd, const char *clientName,const char *path);
+void unregisterBox(const char *clientName,const char *path);
 int boxesRegistered(const char *path);
 void serverShutdown();
 int countEntriesInDir(const char* dirname);

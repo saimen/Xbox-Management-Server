@@ -1,12 +1,14 @@
 CC=cc
-CCFLAGS=-Wall -pedantic -std=c99 -O2 -g
+CCFLAGS=-Wall -Wmost -pedantic -std=c99 -O2 -g
+DEBUG=-DTEST
+LIBS=-lpthread
 
 .PHONY : clean doc bundle
 
 all: xbox_management_server doc
 
 xbox_management_server: src/Server/xbox_management_server.o 
-	$(CC) $(CCFLAGS) -o $@ $?
+	$(CC) $(CCFLAGS) -o $@ $? $(LIBS)
 
 src/Server/xbox_management_server.o: src/Server/xbox_management_server.c
 	$(CC) $(CCFLAGS) -o $@ -c $?

@@ -8,23 +8,21 @@
 /* TODO: get IP's from DNS 
  */
 
+pthread_t thread;
+struct data {
+	int socketfd;
+	struct sockaddr_in *clientAddress;
+	char path[strlen(PATH) + 1];
+};
+
 int main(int argc, char **argv) {
 	int sockfd, newSocket;
-	socklen_t clientLength;
-	char clientName[INET_ADDRESTRELEN];
 	struct sockaddr_in clientAddress, serverAddress;
-	char* path;
-	int nread = -1; 
+	socklen_t clientLength = sizeof(clientAddress);
 	
 
 	openlog(argv[0], LOG_CONS, LOG_USER);
 	
-	if( (path = (char *)malloc(sizeof(char)*33)) == NULL ) {
-		syslog(LOG_ERR, "Couldn't allocate memory for filepath");
-	}
-	strcpy(path, PATH);
-
-
 	if( (sockfd = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
 		/* loggen und so und fehlerbehandlugn */
 		syslog(LOG_ERR, "Failure at opening socket");
@@ -51,46 +49,62 @@ int main(int argc, char **argv) {
 
 	while(true) {
 
-		/* warten auf eingehende verbindungen */
-		clientLength = sizeof(clientAddress);
+		struct data *arg = (struct data*)malloc(sizeof(struct data));
+		arg->clientAddress = (struct sockaddr_in*) malloc(sizeof(struct sockaddr_in));		
 
-		if( (newSocket = accept(sockfd, (struct sockaddr*) &clientAddress, &clientLength)) < 0 ) {
+		/* warten auf eingehende verbindungen */
+		if( (newSocket = accept(sockfd, (struct sockaddr *)arg->clientAddress, &clientLength)) < 0 ) {
 			/* logging and error handling */
 			syslog(LOG_ERR, "error while accepting");
-		}
-
-		if( (inet_ntop(AF_INET, &clientAddress.sin_addr.s_addr, clientName, sizeof(clientName)) == NULL ) ) {
-			/* logging and error handling */
-			syslog(LOG_ERR, "error at determining client information");
-		}
-		
-		syslog(LOG_INFO, "Connected to %s", clientName);
-		if ( clientKnown(clientName) ) {
-			nread = processCommunication(newSocket, clientName, path);
-		}else{
-			syslog(LOG_INFO, "Unknown Client");
-		}
-
-
-		if( nread == 0 ) {
-			/* verbindung von client geschlossen */
-			syslog(LOG_INFO, "Client %s has closed connection", clientName);
-		}else{
-			syslog(LOG_ERR, "read");
-		}
-
-		if( close(newSocket) < 0 ){
-			/* logging and error handling */
-			syslog(LOG_ERR, "Couldn't close connected Socket to %s", clientName);
-		}
+		}		arg->socketfd = newSocket;
+		strcpy(arg->path, PATH);
+		pthread_create(&thread, NULL, &startThread, arg);
 
 	}
-	free(path);
 	syslog(LOG_INFO, "Closing socket");
 	closelog();
 	exit(EXIT_SUCCESS);
 
 }
+
+/**
+ * Threadfunction......
+ *
+ *
+ */
+void* startThread(void *arg) {
+	pthread_detach(pthread_self());
+	struct data *client = (struct data*) arg;
+	char *clientName = (char *)malloc((sizeof(char) * INET_ADDRESTRELEN) + 1);
+	int nread = -1; 
+
+	if( (inet_ntop(AF_INET, &client->clientAddress->sin_addr.s_addr, clientName, sizeof(clientName)) == NULL ) ) {
+		/* logging and error handling */
+		syslog(LOG_ERR, "error at determining client information");
+	}
+	
+	syslog(LOG_INFO, "Connected to %s", clientName);
+	if ( clientKnown(clientName) ) {
+		nread = processCommunication(client->socketfd, clientName, client->path);
+	}else{
+		syslog(LOG_INFO, "Unknown Client");
+	}
+
+
+	if( nread == 0 ) {
+		/* verbindung von client geschlossen */
+		syslog(LOG_INFO, "Client %s has closed connection", clientName);
+	}else{
+		syslog(LOG_ERR, "read");
+	}
+
+	if( close(client->socketfd) < 0 ){
+		/* logging and error handling */
+		syslog(LOG_ERR, "Couldn't close connected Socket to %s", clientName);
+	}
+	pthread_exit(pthread_self());
+}
+
 
 /**
  * Checks if a client is known to the server. This check is performed by the client's IP-Address
@@ -121,17 +135,24 @@ bool clientKnown(const char *clientName) {
  * @param path a char pointer, pointing to a c-string that contains the path in wich the clients
  * 	are administered
  */
-void registerBox(const char *clientName, char *path) {
+void registerBox(const char *clientName,const char *path) {
+	// TODO: make threadsafe 
+	char* registry_path;
+	if ( (registry_path = (char *)malloc(sizeof(char)*33)) == NULL ) {
+		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
+	}
+	strcpy(registry_path, path);
+
 	mode_t permissions = S_IRUSR|S_IWUSR|S_IRGRP;
-	strcat(path, clientName);
-	if ( open(path, O_CREAT, permissions ) < 0) {
+	strcat(registry_path, clientName);
+	if ( open(registry_path, O_CREAT, permissions ) < 0) {
 		/* logging and error handling */
 		syslog(LOG_ERR, "Couldn't create file representing Xbox");
 	}
 	else {
 		syslog(LOG_DEBUG, "file created");
 	}
-	strcpy(path, PATH);
+	free(registry_path);
 }
 
 /** implementation of the management protocoll. 
@@ -140,7 +161,9 @@ void registerBox(const char *clientName, char *path) {
  * 	in human readable form
  * @param path a char pointer to the path in which the clients are administered
  */
-int processCommunication(const int socket_fd, const char *clientName, char *path) {
+int processCommunication(const int socket_fd, const char *clientName,const char *path) {
+	// TODO: split to subfunctions
+	// TODO: make thread safe
 	char line[MAX_MSG];
 	char answer[ANSWER_SIZE];
 	int byteread;
@@ -197,13 +220,20 @@ int processCommunication(const int socket_fd, const char *clientName, char *path
  * @param path a char pointer, pointing to a c-string which cointains the path in which the clients
  * 	are administered
  */
-void unregisterBox(const char *clientName, char *path) {
-	strcat(path, clientName);
-	if ( remove(path) < 0) {
+void unregisterBox(const char *clientName,const char *path) {
+	//TODO: make thread safe
+	char* registry_path;
+	if ( (registry_path = (char *)malloc(sizeof(char)*33)) == NULL ) {
+		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
+	}
+	strcpy(registry_path, path);
+
+	strcat(registry_path, clientName);
+	if ( remove(registry_path) < 0) {
 		/* logging and error handling */
 		syslog(LOG_ERR, "Couldn't remove file representing Xbox");
 	}
-	strcpy(path, PATH);
+	free(registry_path);
 }
 
 /**
@@ -214,6 +244,7 @@ void unregisterBox(const char *clientName, char *path) {
  * @return integer representing the number of registerd clients
  */
 int boxesRegistered(const char *path) {
+	// TODO: make thread safe
 	return (countEntriesInDir(path) - 2);
 }
 
@@ -221,6 +252,7 @@ int boxesRegistered(const char *path) {
  * Shuts down the host which is running xbox_management_server.
  */
 void serverShutdown() {
+	//TODO: make thread safe
 	if ( execl("/sbin/init", "init", "0", (char *)0) == -1 ){
 		syslog(LOG_ERR, "Couldn't initiate shut down sequence");
 	}
@@ -239,6 +271,7 @@ void serverShutdown() {
  * 	this function is 2.
  */
 int countEntriesInDir(const char *dirname) {
+	//TODO: make thread safe
         int n=0;
         struct dirent* d;
         DIR* dir = opendir(dirname);
