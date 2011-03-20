@@ -97,7 +97,7 @@
 #define SHUTDOWN_MESSAGE_SIZE	9
 
 #define PATH			"/var/run/clients/"
-
+#define PATHLEN			18
 
 #define XBOX_ESSZIMMER		"192.168.1.115"
 #define XBOX_SIMON		"192.168.1.105"
