@@ -1,5 +1,5 @@
 CC=cc
-CCFLAGS=-Wall -Wmost -pedantic -std=c99 -O2 -g
+CCFLAGS=-Wall -pedantic -std=c99 -O2 -g
 DEBUG=-DTEST
 LIBS=-lpthread
 
