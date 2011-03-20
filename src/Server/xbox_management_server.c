@@ -12,7 +12,7 @@ pthread_t thread;
 struct data {
 	int socketfd;
 	struct sockaddr_in *clientAddress;
-	char path[strlen(PATH) + 1];
+	char path[PATHLEN];
 };
 
 int main(int argc, char **argv) {
@@ -75,10 +75,10 @@ int main(int argc, char **argv) {
 void* startThread(void *arg) {
 	pthread_detach(pthread_self());
 	struct data *client = (struct data*) arg;
-	char *clientName = (char *)malloc((sizeof(char) * INET_ADDRESTRELEN) + 1);
+	char *clientName = (char *)malloc((sizeof(char) * INET_ADDRESTRELEN));
 	int nread = -1; 
 
-	if( (inet_ntop(AF_INET, &client->clientAddress->sin_addr.s_addr, clientName, sizeof(clientName)) == NULL ) ) {
+	if( (inet_ntop(AF_INET, &client->clientAddress->sin_addr.s_addr, clientName, INET_ADDRESTRELEN) == NULL ) ) {
 		/* logging and error handling */
 		syslog(LOG_ERR, "error at determining client information");
 	}
@@ -102,7 +102,7 @@ void* startThread(void *arg) {
 		/* logging and error handling */
 		syslog(LOG_ERR, "Couldn't close connected Socket to %s", clientName);
 	}
-	pthread_exit(pthread_self());
+	pthread_exit((void *)pthread_self());
 }
 
 
