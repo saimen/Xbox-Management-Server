@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" href="$xbox__management__server_8c.html#a2c357670bd36b1d206a2aafb503dec61" title="A small wrapper for countEntriesInDir() which returns the amount of registered clients." alt="" coords="248,5,389,32"/>
+<area shape="rect" href="$xbox__management__server_8c.html#addb9a5df5db473ed3573506f4f2d6759" title="Register a client on the server." alt="" coords="268,56,369,83"/>
+<area shape="rect" href="$xbox__management__server_8c.html#aed8d885a72ba6196da40f280367f47d5" title="Shuts down the host which is running xbox_management_server." alt="" coords="251,107,387,133"/>
+<area shape="rect" href="$xbox__management__server_8c.html#a5c680b9a4495cf97aefcf1beb81d0880" title="Unregister a client from the server." alt="" coords="259,157,379,184"/>
+<area shape="rect" href="$xbox__management__server_8c.html#a62999d5c7a5f6535a7e8b04bdf7d5560" title="Counts how many entries exist in a directory." alt="" coords="437,5,581,32"/>
+</map>

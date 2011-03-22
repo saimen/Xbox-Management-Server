@@ -1,0 +1,363 @@
+\hypertarget{xbox__management__server_8c}{
+\section{src/Server/xbox\_\-management\_\-server.c File Reference}
+\label{xbox__management__server_8c}\index{src/Server/xbox\_\-management\_\-server.c@{src/Server/xbox\_\-management\_\-server.c}}
+}
+
+
+Server to manage xbox clients.  
+
+
+{\ttfamily \#include \char`\"{}xbox\_\-management\_\-server.h\char`\"{}}\par
+Include dependency graph for xbox\_\-management\_\-server.c:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{xbox__management__server_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\item 
+bool \hyperlink{xbox__management__server_8c_a0bec75368f90a5f5af7ddd72c1535466}{clientKnown} (const char $\ast$clientName)
+\begin{DoxyCompactList}\small\item\em Checks if a client is known to the server. \item\end{DoxyCompactList}\item 
+void \hyperlink{xbox__management__server_8c_addb9a5df5db473ed3573506f4f2d6759}{registerBox} (const char $\ast$clientName, char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Register a client on the server. \item\end{DoxyCompactList}\item 
+int \hyperlink{xbox__management__server_8c_ac2a6945fa65c42dae512210a15370afb}{processCommunication} (const int socket\_\-fd, const char $\ast$clientName, char $\ast$path)
+\begin{DoxyCompactList}\small\item\em implementation of the management protocoll. \item\end{DoxyCompactList}\item 
+void \hyperlink{xbox__management__server_8c_a5c680b9a4495cf97aefcf1beb81d0880}{unregisterBox} (const char $\ast$clientName, char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Unregister a client from the server. \item\end{DoxyCompactList}\item 
+int \hyperlink{xbox__management__server_8c_a2c357670bd36b1d206a2aafb503dec61}{boxesRegistered} (const char $\ast$path)
+\begin{DoxyCompactList}\small\item\em A small wrapper for \hyperlink{xbox__management__server_8c_a62999d5c7a5f6535a7e8b04bdf7d5560}{countEntriesInDir()} which returns the amount of registered clients. \item\end{DoxyCompactList}\item 
+void \hyperlink{xbox__management__server_8c_aed8d885a72ba6196da40f280367f47d5}{serverShutdown} ()
+\begin{DoxyCompactList}\small\item\em Shuts down the host which is running xbox\_\-management\_\-server. \item\end{DoxyCompactList}\item 
+int \hyperlink{xbox__management__server_8c_a62999d5c7a5f6535a7e8b04bdf7d5560}{countEntriesInDir} (const char $\ast$dirname)
+\begin{DoxyCompactList}\small\item\em Counts how many entries exist in a directory. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Server to manage xbox clients. \begin{DoxyAuthor}{Author}
+Simon Barth $<$\href{mailto:Simon.Barth@gmx.de}{\tt Simon.Barth@gmx.de}$>$ 
+\end{DoxyAuthor}
+
+
+Definition in file \hyperlink{xbox__management__server_8c_source}{xbox\_\-management\_\-server.c}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{xbox__management__server_8c_a2c357670bd36b1d206a2aafb503dec61}{
+\index{xbox\_\-management\_\-server.c@{xbox\_\-management\_\-server.c}!boxesRegistered@{boxesRegistered}}
+\index{boxesRegistered@{boxesRegistered}!xbox_management_server.c@{xbox\_\-management\_\-server.c}}
+\subsubsection[{boxesRegistered}]{\setlength{\rightskip}{0pt plus 5cm}int boxesRegistered (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{ path}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8c_a2c357670bd36b1d206a2aafb503dec61}
+
+
+A small wrapper for \hyperlink{xbox__management__server_8c_a62999d5c7a5f6535a7e8b04bdf7d5560}{countEntriesInDir()} which returns the amount of registered clients. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & a constant char pointer which points to a c-\/string containing the path of the directory in which the clients are administered. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+integer representing the number of registerd clients 
+\end{DoxyReturn}
+
+
+Definition at line 221 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{xbox__management__server_8c_a2c357670bd36b1d206a2aafb503dec61_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8c_a2c357670bd36b1d206a2aafb503dec61_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8c_a0bec75368f90a5f5af7ddd72c1535466}{
+\index{xbox\_\-management\_\-server.c@{xbox\_\-management\_\-server.c}!clientKnown@{clientKnown}}
+\index{clientKnown@{clientKnown}!xbox_management_server.c@{xbox\_\-management\_\-server.c}}
+\subsubsection[{clientKnown}]{\setlength{\rightskip}{0pt plus 5cm}bool clientKnown (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{ clientName}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8c_a0bec75368f90a5f5af7ddd72c1535466}
+
+
+Checks if a client is known to the server. 
+
+This check is performed by the client's IP-\/Address
+
+
+\begin{DoxyParams}{Parameters}
+{\em clientName} & a constant character pointer, pointing to a c-\/string that contains the IP-\/Address of the client whicht shall be tested \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a boolean signaling if the client is known or not 
+\end{DoxyReturn}
+
+
+Definition at line 102 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=242pt]{xbox__management__server_8c_a0bec75368f90a5f5af7ddd72c1535466_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8c_a62999d5c7a5f6535a7e8b04bdf7d5560}{
+\index{xbox\_\-management\_\-server.c@{xbox\_\-management\_\-server.c}!countEntriesInDir@{countEntriesInDir}}
+\index{countEntriesInDir@{countEntriesInDir}!xbox_management_server.c@{xbox\_\-management\_\-server.c}}
+\subsubsection[{countEntriesInDir}]{\setlength{\rightskip}{0pt plus 5cm}int countEntriesInDir (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{ dirname}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8c_a62999d5c7a5f6535a7e8b04bdf7d5560}
+
+
+Counts how many entries exist in a directory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dirname} & is a constant char pointer which points to a c-\/string that contains the path of the directory which's content shall be counted. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an integer representing the number of entries inside the directory 
+\end{DoxyReturn}
+\begin{DoxyWarning}{Warning}
+the special entries \char`\"{}.\char`\"{} and \char`\"{}..\char`\"{} are also counted so that the minimum return value of this function is 2. 
+\end{DoxyWarning}
+
+
+Definition at line 246 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8c_a62999d5c7a5f6535a7e8b04bdf7d5560_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8c_a3c04138a5bfe5d72780bb7e82a18e627}{
+\index{xbox\_\-management\_\-server.c@{xbox\_\-management\_\-server.c}!main@{main}}
+\index{main@{main}!xbox_management_server.c@{xbox\_\-management\_\-server.c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{ argc, }
+\item[{char $\ast$$\ast$}]{ argv}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8c_a3c04138a5bfe5d72780bb7e82a18e627}
+
+
+Definition at line 11 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8c_a3c04138a5bfe5d72780bb7e82a18e627_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8c_ac2a6945fa65c42dae512210a15370afb}{
+\index{xbox\_\-management\_\-server.c@{xbox\_\-management\_\-server.c}!processCommunication@{processCommunication}}
+\index{processCommunication@{processCommunication}!xbox_management_server.c@{xbox\_\-management\_\-server.c}}
+\subsubsection[{processCommunication}]{\setlength{\rightskip}{0pt plus 5cm}int processCommunication (
+\begin{DoxyParamCaption}
+\item[{const int}]{ socket\_\-fd, }
+\item[{const char $\ast$}]{ clientName, }
+\item[{char $\ast$}]{ path}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8c_ac2a6945fa65c42dae512210a15370afb}
+
+
+implementation of the management protocoll. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket\_\-fd} & a file descriptor pointing to a connected socket to the client \\
+\hline
+{\em clientName} & a constant character pointer, pointing to a c-\/string that contains the client IP-\/Address in human readable form \\
+\hline
+{\em path} & a char pointer to the path in which the clients are administered \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 148 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8c_ac2a6945fa65c42dae512210a15370afb_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=306pt]{xbox__management__server_8c_ac2a6945fa65c42dae512210a15370afb_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8c_addb9a5df5db473ed3573506f4f2d6759}{
+\index{xbox\_\-management\_\-server.c@{xbox\_\-management\_\-server.c}!registerBox@{registerBox}}
+\index{registerBox@{registerBox}!xbox_management_server.c@{xbox\_\-management\_\-server.c}}
+\subsubsection[{registerBox}]{\setlength{\rightskip}{0pt plus 5cm}void registerBox (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{ clientName, }
+\item[{char $\ast$}]{ path}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8c_addb9a5df5db473ed3573506f4f2d6759}
+
+
+Register a client on the server. 
+
+This is done by generating a file with the IP-\/Address of the client as its name.
+
+
+\begin{DoxyParams}{Parameters}
+{\em clientName} & a constant char pointer, pointing to a c-\/string that contains the IP-\/Address of the client. \\
+\hline
+{\em path} & a char pointer, pointing to a c-\/string that contains the path in wich the clients are administered \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 124 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8c_addb9a5df5db473ed3573506f4f2d6759_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8c_aed8d885a72ba6196da40f280367f47d5}{
+\index{xbox\_\-management\_\-server.c@{xbox\_\-management\_\-server.c}!serverShutdown@{serverShutdown}}
+\index{serverShutdown@{serverShutdown}!xbox_management_server.c@{xbox\_\-management\_\-server.c}}
+\subsubsection[{serverShutdown}]{\setlength{\rightskip}{0pt plus 5cm}void serverShutdown (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8c_aed8d885a72ba6196da40f280367f47d5}
+
+
+Shuts down the host which is running xbox\_\-management\_\-server. 
+
+
+
+Definition at line 228 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8c_aed8d885a72ba6196da40f280367f47d5_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8c_a5c680b9a4495cf97aefcf1beb81d0880}{
+\index{xbox\_\-management\_\-server.c@{xbox\_\-management\_\-server.c}!unregisterBox@{unregisterBox}}
+\index{unregisterBox@{unregisterBox}!xbox_management_server.c@{xbox\_\-management\_\-server.c}}
+\subsubsection[{unregisterBox}]{\setlength{\rightskip}{0pt plus 5cm}void unregisterBox (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{ clientName, }
+\item[{char $\ast$}]{ path}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8c_a5c680b9a4495cf97aefcf1beb81d0880}
+
+
+Unregister a client from the server. 
+
+To accomplish this, the file in path with the name in clientName is deleted.
+
+
+\begin{DoxyParams}{Parameters}
+{\em clientName} & a const char pointer, pointing to a c-\/string which contains the IP-\/Address of the client. \\
+\hline
+{\em path} & a char pointer, pointing to a c-\/string which cointains the path in which the clients are administered \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 205 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8c_a5c680b9a4495cf97aefcf1beb81d0880_icgraph}
+\end{center}
+\end{figure}
+
+

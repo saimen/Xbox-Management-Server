@@ -1,0 +1,533 @@
+\hypertarget{xbox__management__server_8h}{
+\section{src/Server/xbox\_\-management\_\-server.h File Reference}
+\label{xbox__management__server_8h}\index{src/Server/xbox\_\-management\_\-server.h@{src/Server/xbox\_\-management\_\-server.h}}
+}
+
+
+This header-\/file includes all necessary headers and makes all defines needed by \hyperlink{xbox__management__server_8c}{xbox\_\-management\_\-server.c}.  
+
+
+{\ttfamily \#include $<$unistd.h$>$}\par
+{\ttfamily \#include $<$limits.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$stdbool.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$fcntl.h$>$}\par
+{\ttfamily \#include $<$syslog.h$>$}\par
+{\ttfamily \#include $<$dirent.h$>$}\par
+{\ttfamily \#include $<$sys/stat.h$>$}\par
+{\ttfamily \#include $<$sys/socket.h$>$}\par
+{\ttfamily \#include $<$arpa/inet.h$>$}\par
+{\ttfamily \#include $<$netinet/in.h$>$}\par
+Include dependency graph for xbox\_\-management\_\-server.h:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=306pt]{xbox__management__server_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{xbox__management__server_8h_a03f5f55c8bf8665720eb3e9dc64178df}{XBOX\_\-MANAGEMENT\_\-SERVER\_\-H}~XBOX\_\-MANAGEMENT\_\-SERVER\_\-H
+\item 
+\#define \hyperlink{xbox__management__server_8h_a4a1bbbe90c7683ccd529047da2148f99}{INET\_\-ADDRESTRELEN}~16
+\begin{DoxyCompactList}\small\item\em The length of an IP-\/Address. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{xbox__management__server_8h_aa24597a54a085c6c2c33b64138f09eff}{MAX\_\-MSG}~1024
+\begin{DoxyCompactList}\small\item\em Buffer size for maximum message length. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{xbox__management__server_8h_a233b331cc3228a8f39e61a031aed9d02}{ANSWER\_\-SIZE}~4
+\begin{DoxyCompactList}\small\item\em maximum length of the answer \item\end{DoxyCompactList}\item 
+\#define \hyperlink{xbox__management__server_8h_ac42367fe5c999ec6650de83e9d72fe8c}{SERVER\_\-PORT}~35002
+\begin{DoxyCompactList}\small\item\em Port on wich the server listens. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{xbox__management__server_8h_afdafc94a952914caa97c249d30100b9c}{STARTUP\_\-MESSAGE\_\-SIZE}~8
+\begin{DoxyCompactList}\small\item\em The size of a startup message including the terminal symbol '$\backslash$0'. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{xbox__management__server_8h_adb328c5bda134b4183492624ccaedef3}{SHUTDOWN\_\-MESSAGE\_\-SIZE}~9
+\begin{DoxyCompactList}\small\item\em The size of a shutdown message including the terminal symbol '$\backslash$0'. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{xbox__management__server_8h_ab0139008fdda107456f13f837872b410}{PATH}~\char`\"{}/var/run/clients/\char`\"{}
+\item 
+\#define \hyperlink{xbox__management__server_8h_acf319b936574276524626d2ccef3fab8}{XBOX\_\-ESSZIMMER}~\char`\"{}192.168.1.115\char`\"{}
+\begin{DoxyCompactList}\small\item\em IP-\/Address of a client. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{xbox__management__server_8h_a69b0cd714e8e543c6a5bf6ae833d155b}{XBOX\_\-SIMON}~\char`\"{}192.168.1.105\char`\"{}
+\begin{DoxyCompactList}\small\item\em IP-\/Address of a client. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{xbox__management__server_8h_ad1b8fe1ed06e71e956ce3c7b424dd359}{MACBOOK\_\-SIMON}~\char`\"{}192.168.1.100\char`\"{}
+\begin{DoxyCompactList}\small\item\em IP-\/Address of test-\/client. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{xbox__management__server_8h_a28d06fc286f28044ed3380969700ff3f}{SERVER\_\-IP}~\char`\"{}192.168.1.111\char`\"{}
+\begin{DoxyCompactList}\small\item\em IP-\/Address of the management server. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{xbox__management__server_8h_a0bec75368f90a5f5af7ddd72c1535466}{clientKnown} (const char $\ast$clientName)
+\begin{DoxyCompactList}\small\item\em Checks if a client is known to the server. \item\end{DoxyCompactList}\item 
+void \hyperlink{xbox__management__server_8h_addb9a5df5db473ed3573506f4f2d6759}{registerBox} (const char $\ast$clientName, char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Register a client on the server. \item\end{DoxyCompactList}\item 
+int \hyperlink{xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb}{processCommunication} (const int socket\_\-fd, const char $\ast$clientName, char $\ast$path)
+\begin{DoxyCompactList}\small\item\em implementation of the management protocoll. \item\end{DoxyCompactList}\item 
+void \hyperlink{xbox__management__server_8h_a5c680b9a4495cf97aefcf1beb81d0880}{unregisterBox} (const char $\ast$clientName, char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Unregister a client from the server. \item\end{DoxyCompactList}\item 
+int \hyperlink{xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61}{boxesRegistered} (const char $\ast$path)
+\begin{DoxyCompactList}\small\item\em A small wrapper for \hyperlink{xbox__management__server_8c_a62999d5c7a5f6535a7e8b04bdf7d5560}{countEntriesInDir()} which returns the amount of registered clients. \item\end{DoxyCompactList}\item 
+void \hyperlink{xbox__management__server_8h_aed8d885a72ba6196da40f280367f47d5}{serverShutdown} ()
+\begin{DoxyCompactList}\small\item\em Shuts down the host which is running xbox\_\-management\_\-server. \item\end{DoxyCompactList}\item 
+int \hyperlink{xbox__management__server_8h_a62999d5c7a5f6535a7e8b04bdf7d5560}{countEntriesInDir} (const char $\ast$dirname)
+\begin{DoxyCompactList}\small\item\em Counts how many entries exist in a directory. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This header-\/file includes all necessary headers and makes all defines needed by \hyperlink{xbox__management__server_8c}{xbox\_\-management\_\-server.c}. \begin{DoxyAuthor}{Author}
+Simon Barth $<$\href{mailto:Simon.Barth@gmx.de}{\tt Simon.Barth@gmx.de}$>$ 
+\end{DoxyAuthor}
+
+
+Definition in file \hyperlink{xbox__management__server_8h_source}{xbox\_\-management\_\-server.h}.
+
+
+
+\subsection{Define Documentation}
+\hypertarget{xbox__management__server_8h_a233b331cc3228a8f39e61a031aed9d02}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!ANSWER\_\-SIZE@{ANSWER\_\-SIZE}}
+\index{ANSWER\_\-SIZE@{ANSWER\_\-SIZE}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{ANSWER\_\-SIZE}]{\setlength{\rightskip}{0pt plus 5cm}\#define ANSWER\_\-SIZE~4}}
+\label{xbox__management__server_8h_a233b331cc3228a8f39e61a031aed9d02}
+
+
+maximum length of the answer 
+
+
+
+Definition at line 91 of file xbox\_\-management\_\-server.h.
+
+\hypertarget{xbox__management__server_8h_a4a1bbbe90c7683ccd529047da2148f99}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!INET\_\-ADDRESTRELEN@{INET\_\-ADDRESTRELEN}}
+\index{INET\_\-ADDRESTRELEN@{INET\_\-ADDRESTRELEN}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{INET\_\-ADDRESTRELEN}]{\setlength{\rightskip}{0pt plus 5cm}\#define INET\_\-ADDRESTRELEN~16}}
+\label{xbox__management__server_8h_a4a1bbbe90c7683ccd529047da2148f99}
+
+
+The length of an IP-\/Address. 
+
+
+
+Definition at line 89 of file xbox\_\-management\_\-server.h.
+
+\hypertarget{xbox__management__server_8h_ad1b8fe1ed06e71e956ce3c7b424dd359}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!MACBOOK\_\-SIMON@{MACBOOK\_\-SIMON}}
+\index{MACBOOK\_\-SIMON@{MACBOOK\_\-SIMON}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{MACBOOK\_\-SIMON}]{\setlength{\rightskip}{0pt plus 5cm}\#define MACBOOK\_\-SIMON~\char`\"{}192.168.1.100\char`\"{}}}
+\label{xbox__management__server_8h_ad1b8fe1ed06e71e956ce3c7b424dd359}
+
+
+IP-\/Address of test-\/client. 
+
+
+
+Definition at line 111 of file xbox\_\-management\_\-server.h.
+
+\hypertarget{xbox__management__server_8h_aa24597a54a085c6c2c33b64138f09eff}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!MAX\_\-MSG@{MAX\_\-MSG}}
+\index{MAX\_\-MSG@{MAX\_\-MSG}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{MAX\_\-MSG}]{\setlength{\rightskip}{0pt plus 5cm}\#define MAX\_\-MSG~1024}}
+\label{xbox__management__server_8h_aa24597a54a085c6c2c33b64138f09eff}
+
+
+Buffer size for maximum message length. 
+
+
+
+Definition at line 90 of file xbox\_\-management\_\-server.h.
+
+\hypertarget{xbox__management__server_8h_ab0139008fdda107456f13f837872b410}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!PATH@{PATH}}
+\index{PATH@{PATH}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{PATH}]{\setlength{\rightskip}{0pt plus 5cm}\#define PATH~\char`\"{}/var/run/clients/\char`\"{}}}
+\label{xbox__management__server_8h_ab0139008fdda107456f13f837872b410}
+
+
+Definition at line 98 of file xbox\_\-management\_\-server.h.
+
+\hypertarget{xbox__management__server_8h_a28d06fc286f28044ed3380969700ff3f}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!SERVER\_\-IP@{SERVER\_\-IP}}
+\index{SERVER\_\-IP@{SERVER\_\-IP}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{SERVER\_\-IP}]{\setlength{\rightskip}{0pt plus 5cm}\#define SERVER\_\-IP~\char`\"{}192.168.1.111\char`\"{}}}
+\label{xbox__management__server_8h_a28d06fc286f28044ed3380969700ff3f}
+
+
+IP-\/Address of the management server. 
+
+
+
+Definition at line 112 of file xbox\_\-management\_\-server.h.
+
+\hypertarget{xbox__management__server_8h_ac42367fe5c999ec6650de83e9d72fe8c}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!SERVER\_\-PORT@{SERVER\_\-PORT}}
+\index{SERVER\_\-PORT@{SERVER\_\-PORT}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{SERVER\_\-PORT}]{\setlength{\rightskip}{0pt plus 5cm}\#define SERVER\_\-PORT~35002}}
+\label{xbox__management__server_8h_ac42367fe5c999ec6650de83e9d72fe8c}
+
+
+Port on wich the server listens. 
+
+
+
+Definition at line 92 of file xbox\_\-management\_\-server.h.
+
+\hypertarget{xbox__management__server_8h_adb328c5bda134b4183492624ccaedef3}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!SHUTDOWN\_\-MESSAGE\_\-SIZE@{SHUTDOWN\_\-MESSAGE\_\-SIZE}}
+\index{SHUTDOWN\_\-MESSAGE\_\-SIZE@{SHUTDOWN\_\-MESSAGE\_\-SIZE}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{SHUTDOWN\_\-MESSAGE\_\-SIZE}]{\setlength{\rightskip}{0pt plus 5cm}\#define SHUTDOWN\_\-MESSAGE\_\-SIZE~9}}
+\label{xbox__management__server_8h_adb328c5bda134b4183492624ccaedef3}
+
+
+The size of a shutdown message including the terminal symbol '$\backslash$0'. 
+
+
+
+Definition at line 96 of file xbox\_\-management\_\-server.h.
+
+\hypertarget{xbox__management__server_8h_afdafc94a952914caa97c249d30100b9c}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!STARTUP\_\-MESSAGE\_\-SIZE@{STARTUP\_\-MESSAGE\_\-SIZE}}
+\index{STARTUP\_\-MESSAGE\_\-SIZE@{STARTUP\_\-MESSAGE\_\-SIZE}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{STARTUP\_\-MESSAGE\_\-SIZE}]{\setlength{\rightskip}{0pt plus 5cm}\#define STARTUP\_\-MESSAGE\_\-SIZE~8}}
+\label{xbox__management__server_8h_afdafc94a952914caa97c249d30100b9c}
+
+
+The size of a startup message including the terminal symbol '$\backslash$0'. 
+
+
+
+Definition at line 95 of file xbox\_\-management\_\-server.h.
+
+\hypertarget{xbox__management__server_8h_acf319b936574276524626d2ccef3fab8}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!XBOX\_\-ESSZIMMER@{XBOX\_\-ESSZIMMER}}
+\index{XBOX\_\-ESSZIMMER@{XBOX\_\-ESSZIMMER}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{XBOX\_\-ESSZIMMER}]{\setlength{\rightskip}{0pt plus 5cm}\#define XBOX\_\-ESSZIMMER~\char`\"{}192.168.1.115\char`\"{}}}
+\label{xbox__management__server_8h_acf319b936574276524626d2ccef3fab8}
+
+
+IP-\/Address of a client. 
+
+
+
+Definition at line 101 of file xbox\_\-management\_\-server.h.
+
+\hypertarget{xbox__management__server_8h_a03f5f55c8bf8665720eb3e9dc64178df}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!XBOX\_\-MANAGEMENT\_\-SERVER\_\-H@{XBOX\_\-MANAGEMENT\_\-SERVER\_\-H}}
+\index{XBOX\_\-MANAGEMENT\_\-SERVER\_\-H@{XBOX\_\-MANAGEMENT\_\-SERVER\_\-H}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{XBOX\_\-MANAGEMENT\_\-SERVER\_\-H}]{\setlength{\rightskip}{0pt plus 5cm}\#define XBOX\_\-MANAGEMENT\_\-SERVER\_\-H~XBOX\_\-MANAGEMENT\_\-SERVER\_\-H}}
+\label{xbox__management__server_8h_a03f5f55c8bf8665720eb3e9dc64178df}
+
+
+Definition at line 71 of file xbox\_\-management\_\-server.h.
+
+\hypertarget{xbox__management__server_8h_a69b0cd714e8e543c6a5bf6ae833d155b}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!XBOX\_\-SIMON@{XBOX\_\-SIMON}}
+\index{XBOX\_\-SIMON@{XBOX\_\-SIMON}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{XBOX\_\-SIMON}]{\setlength{\rightskip}{0pt plus 5cm}\#define XBOX\_\-SIMON~\char`\"{}192.168.1.105\char`\"{}}}
+\label{xbox__management__server_8h_a69b0cd714e8e543c6a5bf6ae833d155b}
+
+
+IP-\/Address of a client. 
+
+
+
+Definition at line 102 of file xbox\_\-management\_\-server.h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!boxesRegistered@{boxesRegistered}}
+\index{boxesRegistered@{boxesRegistered}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{boxesRegistered}]{\setlength{\rightskip}{0pt plus 5cm}int boxesRegistered (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{ path}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61}
+
+
+A small wrapper for \hyperlink{xbox__management__server_8c_a62999d5c7a5f6535a7e8b04bdf7d5560}{countEntriesInDir()} which returns the amount of registered clients. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & a constant char pointer which points to a c-\/string containing the path of the directory in which the clients are administered. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+integer representing the number of registerd clients 
+\end{DoxyReturn}
+
+
+Definition at line 221 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8h_a0bec75368f90a5f5af7ddd72c1535466}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!clientKnown@{clientKnown}}
+\index{clientKnown@{clientKnown}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{clientKnown}]{\setlength{\rightskip}{0pt plus 5cm}bool clientKnown (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{ clientName}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8h_a0bec75368f90a5f5af7ddd72c1535466}
+
+
+Checks if a client is known to the server. 
+
+This check is performed by the client's IP-\/Address
+
+
+\begin{DoxyParams}{Parameters}
+{\em clientName} & a constant character pointer, pointing to a c-\/string that contains the IP-\/Address of the client whicht shall be tested \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a boolean signaling if the client is known or not 
+\end{DoxyReturn}
+
+
+Definition at line 102 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=242pt]{xbox__management__server_8h_a0bec75368f90a5f5af7ddd72c1535466_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8h_a62999d5c7a5f6535a7e8b04bdf7d5560}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!countEntriesInDir@{countEntriesInDir}}
+\index{countEntriesInDir@{countEntriesInDir}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{countEntriesInDir}]{\setlength{\rightskip}{0pt plus 5cm}int countEntriesInDir (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{ dirname}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8h_a62999d5c7a5f6535a7e8b04bdf7d5560}
+
+
+Counts how many entries exist in a directory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dirname} & is a constant char pointer which points to a c-\/string that contains the path of the directory which's content shall be counted. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an integer representing the number of entries inside the directory 
+\end{DoxyReturn}
+\begin{DoxyWarning}{Warning}
+the special entries \char`\"{}.\char`\"{} and \char`\"{}..\char`\"{} are also counted so that the minimum return value of this function is 2. 
+\end{DoxyWarning}
+
+
+Definition at line 246 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8h_a62999d5c7a5f6535a7e8b04bdf7d5560_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!processCommunication@{processCommunication}}
+\index{processCommunication@{processCommunication}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{processCommunication}]{\setlength{\rightskip}{0pt plus 5cm}int processCommunication (
+\begin{DoxyParamCaption}
+\item[{const int}]{ socket\_\-fd, }
+\item[{const char $\ast$}]{ clientName, }
+\item[{char $\ast$}]{ path}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb}
+
+
+implementation of the management protocoll. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket\_\-fd} & a file descriptor pointing to a connected socket to the client \\
+\hline
+{\em clientName} & a constant character pointer, pointing to a c-\/string that contains the client IP-\/Address in human readable form \\
+\hline
+{\em path} & a char pointer to the path in which the clients are administered \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 148 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=306pt]{xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8h_addb9a5df5db473ed3573506f4f2d6759}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!registerBox@{registerBox}}
+\index{registerBox@{registerBox}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{registerBox}]{\setlength{\rightskip}{0pt plus 5cm}void registerBox (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{ clientName, }
+\item[{char $\ast$}]{ path}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8h_addb9a5df5db473ed3573506f4f2d6759}
+
+
+Register a client on the server. 
+
+This is done by generating a file with the IP-\/Address of the client as its name.
+
+
+\begin{DoxyParams}{Parameters}
+{\em clientName} & a constant char pointer, pointing to a c-\/string that contains the IP-\/Address of the client. \\
+\hline
+{\em path} & a char pointer, pointing to a c-\/string that contains the path in wich the clients are administered \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 124 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8h_addb9a5df5db473ed3573506f4f2d6759_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8h_aed8d885a72ba6196da40f280367f47d5}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!serverShutdown@{serverShutdown}}
+\index{serverShutdown@{serverShutdown}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{serverShutdown}]{\setlength{\rightskip}{0pt plus 5cm}void serverShutdown (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8h_aed8d885a72ba6196da40f280367f47d5}
+
+
+Shuts down the host which is running xbox\_\-management\_\-server. 
+
+
+
+Definition at line 228 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8h_aed8d885a72ba6196da40f280367f47d5_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{xbox__management__server_8h_a5c680b9a4495cf97aefcf1beb81d0880}{
+\index{xbox\_\-management\_\-server.h@{xbox\_\-management\_\-server.h}!unregisterBox@{unregisterBox}}
+\index{unregisterBox@{unregisterBox}!xbox_management_server.h@{xbox\_\-management\_\-server.h}}
+\subsubsection[{unregisterBox}]{\setlength{\rightskip}{0pt plus 5cm}void unregisterBox (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{ clientName, }
+\item[{char $\ast$}]{ path}
+\end{DoxyParamCaption}
+)}}
+\label{xbox__management__server_8h_a5c680b9a4495cf97aefcf1beb81d0880}
+
+
+Unregister a client from the server. 
+
+To accomplish this, the file in path with the name in clientName is deleted.
+
+
+\begin{DoxyParams}{Parameters}
+{\em clientName} & a const char pointer, pointing to a c-\/string which contains the IP-\/Address of the client. \\
+\hline
+{\em path} & a char pointer, pointing to a c-\/string which cointains the path in which the clients are administered \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 205 of file xbox\_\-management\_\-server.c.
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{xbox__management__server_8h_a5c680b9a4495cf97aefcf1beb81d0880_icgraph}
+\end{center}
+\end{figure}
+
+

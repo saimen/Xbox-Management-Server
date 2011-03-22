@@ -1,0 +1,247 @@
+\hypertarget{namespaceshutdown}{
+\section{shutdown Namespace Reference}
+\label{namespaceshutdown}\index{shutdown@{shutdown}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespaceshutdown_adf4fb042762c6903d3eb8ce90c713cdc}{pingServer}
+\begin{DoxyCompactList}\small\item\em pings the server to test if it is running \item\end{DoxyCompactList}\item 
+def \hyperlink{namespaceshutdown_a2313f265ce0f0849b164df60808b21a2}{askShutdown}
+\begin{DoxyCompactList}\small\item\em asks the user if the server should be shut down \item\end{DoxyCompactList}\item 
+def \hyperlink{namespaceshutdown_a9178e38304b9c410c317bd9086ef9b33}{sendShutdown}
+\begin{DoxyCompactList}\small\item\em sends a shutdown message to connection \item\end{DoxyCompactList}\item 
+def \hyperlink{namespaceshutdown_ad6883dd7a4f621dbf924bca76a71ce40}{recieveAnswer}
+\begin{DoxyCompactList}\small\item\em recieves messages from the server \item\end{DoxyCompactList}\item 
+def \hyperlink{namespaceshutdown_a5201484839af592727e8c0b7cf7be41e}{connectionFailure}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{namespaceshutdown_a1d57ccf41aa815c697b5e7462788d6ef}{server\_\-ip} = \char`\"{}192.168.1.111\char`\"{}
+\begin{DoxyCompactList}\small\item\em The IP-\/Address of the Server. \item\end{DoxyCompactList}\item 
+tuple \hyperlink{namespaceshutdown_a06cedfd6f90aae704fb783a7c26d5766}{server\_\-address} = (\hyperlink{namespaceshutdown_a1d57ccf41aa815c697b5e7462788d6ef}{server\_\-ip},445)
+\begin{DoxyCompactList}\small\item\em A socket on the server which is pingable. \item\end{DoxyCompactList}\item 
+tuple \hyperlink{namespaceshutdown_acbd52c2f88522e549aae89f6cc542155}{server\_\-xbox\_\-mngmnt} = (\hyperlink{namespaceshutdown_a1d57ccf41aa815c697b5e7462788d6ef}{server\_\-ip},35002)
+\begin{DoxyCompactList}\small\item\em The socket on the server for the xbox\_\-management-\/protocoll. \item\end{DoxyCompactList}\item 
+tuple \hyperlink{namespaceshutdown_a46841de53247fce3f5dcbf4ab5ecdfcc}{xbox\_\-ip} = xbmc.getIPAddress()
+\begin{DoxyCompactList}\small\item\em IP-\/Address of the client. \item\end{DoxyCompactList}\item 
+tuple \hyperlink{namespaceshutdown_a13b0427c044e6d8765191d9e858ff627}{xbox\_\-address} = (\hyperlink{namespaceshutdown_a46841de53247fce3f5dcbf4ab5ecdfcc}{xbox\_\-ip},33334)
+\begin{DoxyCompactList}\small\item\em socket on the client for first ping test \item\end{DoxyCompactList}\item 
+tuple \hyperlink{namespaceshutdown_aeda75aa721a3e99f8bd5667fed135478}{xbox\_\-mngmnt\_\-address} = (\hyperlink{namespaceshutdown_a46841de53247fce3f5dcbf4ab5ecdfcc}{xbox\_\-ip}, 33303)
+\begin{DoxyCompactList}\small\item\em socket on the client to check if the server is up after WOL \item\end{DoxyCompactList}\item 
+string \hyperlink{namespaceshutdown_a5a308da7ea4ff7f97f5e5060e3bd944c}{message} = \char`\"{}shutdown\char`\"{}
+\begin{DoxyCompactList}\small\item\em the message to send to the server \item\end{DoxyCompactList}\item 
+tuple \hyperlink{namespaceshutdown_aa29f20a41b6c1a0ddf489a61f5507457}{ret} = pingServer()
+\item 
+tuple \hyperlink{namespaceshutdown_a8cc315dfddb9647fbb6d094512ff33dd}{dialog} = xbmcgui.Dialog()
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespaceshutdown_a2313f265ce0f0849b164df60808b21a2}{
+\index{shutdown@{shutdown}!askShutdown@{askShutdown}}
+\index{askShutdown@{askShutdown}!shutdown@{shutdown}}
+\subsubsection[{askShutdown}]{\setlength{\rightskip}{0pt plus 5cm}def shutdown::askShutdown (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{namespaceshutdown_a2313f265ce0f0849b164df60808b21a2}
+
+
+asks the user if the server should be shut down 
+
+
+
+Definition at line 47 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_a5201484839af592727e8c0b7cf7be41e}{
+\index{shutdown@{shutdown}!connectionFailure@{connectionFailure}}
+\index{connectionFailure@{connectionFailure}!shutdown@{shutdown}}
+\subsubsection[{connectionFailure}]{\setlength{\rightskip}{0pt plus 5cm}def shutdown::connectionFailure (
+\begin{DoxyParamCaption}
+\item[{}]{ error}
+\end{DoxyParamCaption}
+)}}
+\label{namespaceshutdown_a5201484839af592727e8c0b7cf7be41e}
+
+
+Definition at line 109 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_adf4fb042762c6903d3eb8ce90c713cdc}{
+\index{shutdown@{shutdown}!pingServer@{pingServer}}
+\index{pingServer@{pingServer}!shutdown@{shutdown}}
+\subsubsection[{pingServer}]{\setlength{\rightskip}{0pt plus 5cm}def shutdown::pingServer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{namespaceshutdown_adf4fb042762c6903d3eb8ce90c713cdc}
+
+
+pings the server to test if it is running 
+
+\begin{DoxyReturn}{Returns}
+true if the server is running, false if it is powered-\/off 
+\end{DoxyReturn}
+
+
+Definition at line 26 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_ad6883dd7a4f621dbf924bca76a71ce40}{
+\index{shutdown@{shutdown}!recieveAnswer@{recieveAnswer}}
+\index{recieveAnswer@{recieveAnswer}!shutdown@{shutdown}}
+\subsubsection[{recieveAnswer}]{\setlength{\rightskip}{0pt plus 5cm}def shutdown::recieveAnswer (
+\begin{DoxyParamCaption}
+\item[{}]{ connection}
+\end{DoxyParamCaption}
+)}}
+\label{namespaceshutdown_ad6883dd7a4f621dbf924bca76a71ce40}
+
+
+recieves messages from the server 
+
+
+\begin{DoxyParams}{Parameters}
+{\em connection} & socket connected to the management server \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 84 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_a9178e38304b9c410c317bd9086ef9b33}{
+\index{shutdown@{shutdown}!sendShutdown@{sendShutdown}}
+\index{sendShutdown@{sendShutdown}!shutdown@{shutdown}}
+\subsubsection[{sendShutdown}]{\setlength{\rightskip}{0pt plus 5cm}def shutdown::sendShutdown (
+\begin{DoxyParamCaption}
+\item[{}]{ connection}
+\end{DoxyParamCaption}
+)}}
+\label{namespaceshutdown_a9178e38304b9c410c317bd9086ef9b33}
+
+
+sends a shutdown message to connection 
+
+
+\begin{DoxyParams}{Parameters}
+{\em connection} & socket connected to the management server \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 71 of file shutdown.py.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{namespaceshutdown_a8cc315dfddb9647fbb6d094512ff33dd}{
+\index{shutdown@{shutdown}!dialog@{dialog}}
+\index{dialog@{dialog}!shutdown@{shutdown}}
+\subsubsection[{dialog}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf shutdown::dialog} = xbmcgui.Dialog()}}
+\label{namespaceshutdown_a8cc315dfddb9647fbb6d094512ff33dd}
+
+
+Definition at line 121 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_a5a308da7ea4ff7f97f5e5060e3bd944c}{
+\index{shutdown@{shutdown}!message@{message}}
+\index{message@{message}!shutdown@{shutdown}}
+\subsubsection[{message}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf shutdown::message} = \char`\"{}shutdown\char`\"{}}}
+\label{namespaceshutdown_a5a308da7ea4ff7f97f5e5060e3bd944c}
+
+
+the message to send to the server 
+
+
+
+Definition at line 22 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_aa29f20a41b6c1a0ddf489a61f5507457}{
+\index{shutdown@{shutdown}!ret@{ret}}
+\index{ret@{ret}!shutdown@{shutdown}}
+\subsubsection[{ret}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf shutdown::ret} = pingServer()}}
+\label{namespaceshutdown_aa29f20a41b6c1a0ddf489a61f5507457}
+
+
+Definition at line 115 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_a06cedfd6f90aae704fb783a7c26d5766}{
+\index{shutdown@{shutdown}!server\_\-address@{server\_\-address}}
+\index{server\_\-address@{server\_\-address}!shutdown@{shutdown}}
+\subsubsection[{server\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf shutdown::server\_\-address} = ({\bf server\_\-ip},445)}}
+\label{namespaceshutdown_a06cedfd6f90aae704fb783a7c26d5766}
+
+
+A socket on the server which is pingable. 
+
+
+
+Definition at line 12 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_a1d57ccf41aa815c697b5e7462788d6ef}{
+\index{shutdown@{shutdown}!server\_\-ip@{server\_\-ip}}
+\index{server\_\-ip@{server\_\-ip}!shutdown@{shutdown}}
+\subsubsection[{server\_\-ip}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf shutdown::server\_\-ip} = \char`\"{}192.168.1.111\char`\"{}}}
+\label{namespaceshutdown_a1d57ccf41aa815c697b5e7462788d6ef}
+
+
+The IP-\/Address of the Server. 
+
+
+
+Definition at line 10 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_acbd52c2f88522e549aae89f6cc542155}{
+\index{shutdown@{shutdown}!server\_\-xbox\_\-mngmnt@{server\_\-xbox\_\-mngmnt}}
+\index{server\_\-xbox\_\-mngmnt@{server\_\-xbox\_\-mngmnt}!shutdown@{shutdown}}
+\subsubsection[{server\_\-xbox\_\-mngmnt}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf shutdown::server\_\-xbox\_\-mngmnt} = ({\bf server\_\-ip},35002)}}
+\label{namespaceshutdown_acbd52c2f88522e549aae89f6cc542155}
+
+
+The socket on the server for the xbox\_\-management-\/protocoll. 
+
+
+
+Definition at line 14 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_a13b0427c044e6d8765191d9e858ff627}{
+\index{shutdown@{shutdown}!xbox\_\-address@{xbox\_\-address}}
+\index{xbox\_\-address@{xbox\_\-address}!shutdown@{shutdown}}
+\subsubsection[{xbox\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf shutdown::xbox\_\-address} = ({\bf xbox\_\-ip},33334)}}
+\label{namespaceshutdown_a13b0427c044e6d8765191d9e858ff627}
+
+
+socket on the client for first ping test 
+
+
+
+Definition at line 18 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_a46841de53247fce3f5dcbf4ab5ecdfcc}{
+\index{shutdown@{shutdown}!xbox\_\-ip@{xbox\_\-ip}}
+\index{xbox\_\-ip@{xbox\_\-ip}!shutdown@{shutdown}}
+\subsubsection[{xbox\_\-ip}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf shutdown::xbox\_\-ip} = xbmc.getIPAddress()}}
+\label{namespaceshutdown_a46841de53247fce3f5dcbf4ab5ecdfcc}
+
+
+IP-\/Address of the client. 
+
+
+
+Definition at line 16 of file shutdown.py.
+
+\hypertarget{namespaceshutdown_aeda75aa721a3e99f8bd5667fed135478}{
+\index{shutdown@{shutdown}!xbox\_\-mngmnt\_\-address@{xbox\_\-mngmnt\_\-address}}
+\index{xbox\_\-mngmnt\_\-address@{xbox\_\-mngmnt\_\-address}!shutdown@{shutdown}}
+\subsubsection[{xbox\_\-mngmnt\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf shutdown::xbox\_\-mngmnt\_\-address} = ({\bf xbox\_\-ip}, 33303)}}
+\label{namespaceshutdown_aeda75aa721a3e99f8bd5667fed135478}
+
+
+socket on the client to check if the server is up after WOL 
+
+
+
+Definition at line 20 of file shutdown.py.
+
