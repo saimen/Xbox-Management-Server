@@ -122,6 +122,11 @@ bool clientKnown(const char *clientName) {
  * 	are administered
  */
 void registerBox(const char *clientName, char *path) {
+	
+	if ( opendir(registry_path) == NULL ) {
+		mkdir(registry_path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
+	}
+
 	mode_t permissions = S_IRUSR|S_IWUSR|S_IRGRP;
 	strcat(path, clientName);
 	if ( open(path, O_CREAT, permissions ) < 0) {
