@@ -16,15 +16,16 @@ struct data {
 };
 
 int main(int argc, char **argv) {
+	(void) argc;
 	int sockfd, newSocket;
-	struct sockaddr_in clientAddress, serverAddress;
-	socklen_t clientLength = sizeof(clientAddress);
+	struct sockaddr_in serverAddress;
+	socklen_t clientLength;// = sizeof(struct sockaddr_in);
 	
 
 	openlog(argv[0], LOG_CONS, LOG_USER);
 	
 	if( (sockfd = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
-		/* loggen und so und fehlerbehandlugn */
+		/* loggen und so und fehlerbehandlung */
 		syslog(LOG_ERR, "Failure at opening socket");
 	}
 
@@ -56,7 +57,8 @@ int main(int argc, char **argv) {
 		if( (newSocket = accept(sockfd, (struct sockaddr *)arg->clientAddress, &clientLength)) < 0 ) {
 			/* logging and error handling */
 			syslog(LOG_ERR, "error while accepting");
-		}		arg->socketfd = newSocket;
+		}		
+		arg->socketfd = newSocket;
 		strcpy(arg->path, PATH);
 		pthread_create(&thread, NULL, &startThread, arg);
 
@@ -72,7 +74,7 @@ int main(int argc, char **argv) {
  *
  *
  */
-void exit_handler_mem (void *arg) {
+void exit_handler_mem(void *arg) {
 	struct data *mem = (struct data*) arg;
 	free(mem->clientAddress);
 	free(mem);
@@ -161,6 +163,7 @@ void registerBox(const char *clientName,const char *path) {
 
 	mode_t permissions = S_IRUSR|S_IWUSR|S_IRGRP;
 	strcat(registry_path, clientName);
+	//lock mutex here
 	if ( open(registry_path, O_CREAT, permissions ) < 0) {
 		/* logging and error handling */
 		syslog(LOG_ERR, "Couldn't create file representing Xbox");
@@ -168,6 +171,7 @@ void registerBox(const char *clientName,const char *path) {
 	else {
 		syslog(LOG_DEBUG, "file created");
 	}
+	//unlock mutex here
 	free(registry_path);
 }
 
@@ -182,9 +186,9 @@ int processCommunication(const int socket_fd, const char *clientName,const char 
 	// TODO: make thread safe
 	char line[MAX_MSG];
 	char answer[ANSWER_SIZE];
-	int byteread;
+	int bytesread;
 	memset(line, '\0', MAX_MSG);
-	while( (byteread=read(socket_fd, line, MAX_MSG) ) > 0) {
+	while( (bytesread=read(socket_fd, line, MAX_MSG) ) > 0) {
 		/* hier das protokoll implememtieren */
 
 		syslog(LOG_INFO, "Client is: %s and sent %s", clientName, line); 
@@ -224,7 +228,7 @@ int processCommunication(const int socket_fd, const char *clientName,const char 
 		
 		memset(line, '\0', MAX_MSG);			
 	}
-	return byteread;
+	return bytesread;
 }
 
 /**
@@ -291,10 +295,9 @@ void serverShutdown() {
 int countEntriesInDir(const char *dirname) {
 	//TODO: make thread safe
         int n=0;
-        struct dirent* d;
         DIR* dir = opendir(dirname);
         if (dir == NULL) return 0;
-        while((d = readdir(dir))!=NULL) n++;
+        while((readdir(dir))!=NULL) n++;
         closedir(dir);
         return n;
 }
