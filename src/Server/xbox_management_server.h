@@ -73,6 +73,7 @@
 
 #include <unistd.h>
 #include <limits.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h> //memset()
@@ -122,7 +123,8 @@ int processCommunication(const int socket_fd, const char *clientName,const char 
 void unregisterBox(const char *clientName,const char *path);
 int boxesRegistered(const char *path);
 void serverShutdown();
-int countEntriesInDir(const char* dirname);
+static int countEntriesInDir(const char* dirname);
+static void processMessage(const char *line, const char *path, const char *clientName, int connection);
 
 
 #endif
