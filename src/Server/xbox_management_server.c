@@ -2,7 +2,7 @@
  * @file xbox_management_server.c
  * @author Simon Barth <Simon.Barth@gmx.de>
  */
-
+#define _POSIX_C_SOURCE 200809L
 #include "xbox_management_server.h"
 
 /* TODO: get IP's from DNS 
