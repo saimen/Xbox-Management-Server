@@ -34,13 +34,18 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 322535177;
-			PBXWorkspaceStateSaveDate = 322535177;
+			PBXPerProjectTemplateStateSaveDate = 322535355;
+			PBXWorkspaceStateSaveDate = 322535355;
 		};
 		perUserProjectItems = {
-			6EA61FA313397F2800011A0B /* PBXTextBookmark */ = 6EA61FA313397F2800011A0B /* PBXTextBookmark */;
-			6EA61FA413397F2800011A0B /* PBXBookmark */ = 6EA61FA413397F2800011A0B /* PBXBookmark */;
-			6EA61FA513397F2800011A0B /* PBXTextBookmark */ = 6EA61FA513397F2800011A0B /* PBXTextBookmark */;
+			6EA61FA313397F2800011A0B = 6EA61FA313397F2800011A0B /* PBXTextBookmark */;
+			6EA61FA413397F2800011A0B = 6EA61FA413397F2800011A0B /* PBXBookmark */;
+			6EA61FA913397F5800011A0B = 6EA61FA913397F5800011A0B /* PBXTextBookmark */;
+			6EDEB40C13397FC800C3DA13 /* PBXTextBookmark */ = 6EDEB40C13397FC800C3DA13 /* PBXTextBookmark */;
+			6EDEB416133A509A00C3DA13 /* PBXTextBookmark */ = 6EDEB416133A509A00C3DA13 /* PBXTextBookmark */;
+			6EDEB417133A509A00C3DA13 /* PBXTextBookmark */ = 6EDEB417133A509A00C3DA13 /* PBXTextBookmark */;
+			6EDEB41E133A519000C3DA13 /* PBXTextBookmark */ = 6EDEB41E133A519000C3DA13 /* PBXTextBookmark */;
+			6EDEB423133A614400C3DA13 /* PBXTextBookmark */ = 6EDEB423133A614400C3DA13 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 6EBE0EED133977F6005795D4 /* Source Control */;
 		userBuildSettings = {
@@ -60,15 +65,15 @@
 		isa = PBXBookmark;
 		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
 	};
-	6EA61FA513397F2800011A0B /* PBXTextBookmark */ = {
+	6EA61FA913397F5800011A0B /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
-		name = "xbox_management_server.c: 232";
+		name = "xbox_management_server.c: 294";
 		rLen = 0;
-		rLoc = 6601;
+		rLoc = 8693;
 		rType = 0;
-		vrLen = 296;
-		vrLoc = 6408;
+		vrLen = 601;
+		vrLoc = 8337;
 	};
 	6EBE0EE9133977DB005795D4 /* Xbox-Management-Server */ = {
 		isa = PBXExecutable;
@@ -113,9 +118,9 @@
 	};
 	6EBE0EF11339782A005795D4 /* xbox_management_server.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {775, 4134}}";
-			sepNavSelRange = "{6601, 0}";
-			sepNavVisRange = "{6408, 296}";
+			sepNavIntBoundsRect = "{{0, 0}, {726, 4524}}";
+			sepNavSelRange = "{10208, 0}";
+			sepNavVisRange = "{7101, 575}";
 		};
 	};
 	6EBE0EF21339782A005795D4 /* xbox_management_server.h */ = {
@@ -124,6 +129,56 @@
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRange = "{0, 510}";
 		};
+	};
+	6EDEB40C13397FC800C3DA13 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
+		name = "xbox_management_server.c: 294";
+		rLen = 0;
+		rLoc = 8693;
+		rType = 0;
+		vrLen = 601;
+		vrLoc = 8337;
+	};
+	6EDEB416133A509A00C3DA13 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
+		name = "xbox_management_server.c: 338";
+		rLen = 0;
+		rLoc = 9992;
+		rType = 0;
+		vrLen = 518;
+		vrLoc = 7453;
+	};
+	6EDEB417133A509A00C3DA13 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
+		name = "xbox_management_server.c: 338";
+		rLen = 0;
+		rLoc = 9992;
+		rType = 0;
+		vrLen = 518;
+		vrLoc = 7453;
+	};
+	6EDEB41E133A519000C3DA13 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
+		name = "xbox_management_server.c: 337";
+		rLen = 0;
+		rLoc = 9966;
+		rType = 0;
+		vrLen = 251;
+		vrLoc = 7392;
+	};
+	6EDEB423133A614400C3DA13 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
+		name = "xbox_management_server.c: 348";
+		rLen = 0;
+		rLoc = 10208;
+		rType = 0;
+		vrLen = 575;
+		vrLoc = 7101;
 	};
 	8DD76FA90486AB0100D96B5E /* Xbox-Management-Server */ = {
 		activeExec = 0;
