@@ -1,7 +1,7 @@
-CC=cc
-CCFLAGS=-Wall -pedantic -std=c99 -O2 -g
-DEBUG=-DTEST
-LIBS=-lpthread
+CC?=cc
+CCFLAGS+=-Wall -Wextra -Wformat=2 -Winit-self -Wmissing-include-dirs -Wswitch-default -Wswitch-enum -Wtrigraphs -ansi -pedantic-errors -std=c99 -O2 -g
+DEBUG+=-DTEST
+LIBS+=-lpthread
 
 .PHONY : clean doc bundle
 
