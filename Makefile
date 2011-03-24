@@ -21,10 +21,10 @@ xbox_management_server_debug: src/Server/xbox_management_server_debug.o
 src/Server/xbox_management_server_debug.o: src/Server/xbox_management_server.c
 	$(CC) $(DEBUG) -o $@ -c $?
 
-memcheck: xbox_management_server
+memcheck: xbox_management_server_debug
 	valgrind --tool=memcheck --leak-check=full --show-reachable=yes --leak-resolution=high --track-origins=yes -v --log-file=$@.log ./$?
 
-helgrind: xbox_management_server
+helgrind: xbox_management_server_debug
 	valgrind --tool=helgrind --track-fds=yes --track-lockorders=yes --history-level=full -v --log-file=$@.log ./$?
 
 bundle:
