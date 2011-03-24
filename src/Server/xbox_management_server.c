@@ -184,7 +184,6 @@ void registerBox(const char *clientName,const char *path) {
 	if( waiting ) {
 		pthread_rwlock_wrlock(&threads_waiting_mutex);
 		threads_waiting -= 1;
-		waiting = false;
 		pthread_rwlock_unlock(&threads_waiting_mutex);
 	}
 
