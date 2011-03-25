@@ -27,16 +27,8 @@ struct data {
 int main(int argc, char **argv) {
 	(void) argc;
 	int sockfd, newSocket;
-<<<<<<< HEAD
-	char clientName[INET_ADDRESTRELEN];
-	struct sockaddr_in clientAddress, serverAddress;
-	socklen_t clientLength = sizeof(clientAddress);
-	char* path;
-	int nread = -1; 
-=======
 	struct sockaddr_in serverAddress;
 	socklen_t clientLength = sizeof(struct sockaddr_in);
->>>>>>> threads
 	
 
 	openlog(argv[0], LOG_CONS, LOG_USER);
@@ -67,40 +59,6 @@ int main(int argc, char **argv) {
 
 	while(true) {
 
-<<<<<<< HEAD
-		/* warten auf eingehende verbindungen */
-		if( (newSocket = accept(sockfd, (struct sockaddr*) &clientAddress, &clientLength)) < 0 ) {
-			/* logging and error handling */
-			syslog(LOG_ERR, "error while accepting");
-		}
-		/* Hier neuen Thread starten */
-
-		if( (inet_ntop(AF_INET, &clientAddress.sin_addr.s_addr, clientName, sizeof(clientName)) == NULL ) ) {
-			/* logging and error handling */
-			syslog(LOG_ERR, "error at determining client information");
-		}
-		
-		syslog(LOG_INFO, "Connected to %s", clientName);
-
-		if ( clientKnown(clientName) ) {
-			nread = processCommunication(newSocket, clientName, path);
-		}else{
-			syslog(LOG_INFO, "Unknown Client");
-		}
-
-		if( nread == 0 ) {
-			/* verbindung von client geschlossen */
-			syslog(LOG_INFO, "Client %s has closed connection", clientName);
-		}else{
-			syslog(LOG_ERR, "read");
-		}
-
-		if( close(newSocket) < 0 ){
-			/* logging and error handling */
-			syslog(LOG_ERR, "Couldn't close connected Socket to %s", clientName);
-		}
-		/* Hier Thread beenden */
-=======
 		struct data *arg = (struct data*)malloc(sizeof(struct data));
 		arg->clientAddress = (struct sockaddr_in*) malloc(sizeof(struct sockaddr_in));		
 
@@ -142,7 +100,6 @@ void* startThread(void *arg) {
 	pthread_cleanup_push( exit_handler_mem, (void *)arg );
 	char *clientName = (char *)malloc((sizeof(char) * INET_ADDRESTRELEN));
 	int nread = -1; 
->>>>>>> threads
 
 	if( (inet_ntop(AF_INET, &client->clientAddress->sin_addr.s_addr, clientName, INET_ADDRESTRELEN) == NULL ) ) {
 		/* logging and error handling */
