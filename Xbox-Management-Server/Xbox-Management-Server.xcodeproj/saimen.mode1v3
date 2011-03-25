@@ -275,7 +275,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {186, 445}}</string>
+							<string>{{0, 0}, {186, 664}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -287,14 +287,14 @@
 					<key>GeometryConfiguration</key>
 					<dict>
 						<key>Frame</key>
-						<string>{{0, 0}, {203, 463}}</string>
+						<string>{{0, 0}, {203, 682}}</string>
 						<key>GroupTreeTableConfiguration</key>
 						<array>
 							<string>MainColumn</string>
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>269 219 788 504 0 0 1280 778 </string>
+						<string>45 55 1235 723 0 0 1280 778 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -322,11 +322,11 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>6EDEB423133A614400C3DA13</string>
+										<string>6EFA3C8F133C15AF0084CAC1</string>
 										<key>history</key>
 										<array>
 											<string>6EA61FA313397F2800011A0B</string>
-											<string>6EDEB416133A509A00C3DA13</string>
+											<string>6EDEB435133B897000C3DA13</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -338,14 +338,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {580, 232}}</string>
+								<string>{{0, 0}, {1027, 444}}</string>
 								<key>RubberWindowFrame</key>
-								<string>269 219 788 504 0 0 1280 778 </string>
+								<string>45 55 1235 723 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>232pt</string>
+							<string>444pt</string>
 						</dict>
 						<dict>
 							<key>BecomeActive</key>
@@ -360,18 +360,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 237}, {580, 226}}</string>
+								<string>{{0, 449}, {1027, 233}}</string>
 								<key>RubberWindowFrame</key>
-								<string>269 219 788 504 0 0 1280 778 </string>
+								<string>45 55 1235 723 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>226pt</string>
+							<string>233pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
-					<string>580pt</string>
+					<string>1027pt</string>
 				</dict>
 			</array>
 			<key>Name</key>
@@ -386,9 +386,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>6EDEB40D13397FC800C3DA13</string>
+				<string>6EFA3C90133C15AF0084CAC1</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>6EDEB40E13397FC800C3DA13</string>
+				<string>6EFA3C91133C15AF0084CAC1</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -526,12 +526,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>6EBE0EF813397889005795D4</string>
 		<string>/Users/saimen/Developement/xbox_server/Xbox-Management-Server/Xbox-Management-Server.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>269 219 788 504 0 0 1280 778 </string>
+	<string>45 55 1235 723 0 0 1280 778 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -608,7 +607,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>6EBE0EF813397889005795D4</string>
-				<string>6EDEB40F13397FC800C3DA13</string>
+				<string>6EFA3C92133C15AF0084CAC1</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
