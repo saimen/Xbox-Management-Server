@@ -276,6 +276,10 @@ int boxesRegistered(const char *path) {
  * Shuts down the host which is running xbox_management_server.
  */
 void serverShutdown() {
+	if ( getuid() != (uid_t)0 ) {
+		syslog(LOG_ERR, "Process is not privileged to shut down the computer");
+		return;
+	}
 	if ( execl("/sbin/init", "init", "0", (char *)0) == -1 ){
 		syslog(LOG_ERR, "Couldn't initiate shut down sequence");
 	}
