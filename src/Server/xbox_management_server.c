@@ -2,7 +2,10 @@
  * @file xbox_management_server.c
  * @author Simon Barth <Simon.Barth@gmx.de>
  */
+
+#ifndef __FreeBSD__
 #define _POSIX_C_SOURCE 200809L
+#endif
 #include "xbox_management_server.h"
 
 /* TODO: get IP's from DNS 
