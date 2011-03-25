@@ -34,14 +34,14 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 322704812;
-			PBXWorkspaceStateSaveDate = 322704812;
+			PBXPerProjectTemplateStateSaveDate = 322775980;
+			PBXWorkspaceStateSaveDate = 322775980;
 		};
 		perUserProjectItems = {
 			6EA61FA313397F2800011A0B = 6EA61FA313397F2800011A0B /* PBXTextBookmark */;
-			6EDEB42F133B88BF00C3DA13 = 6EDEB42F133B88BF00C3DA13 /* PBXTextBookmark */;
-			6EDEB435133B897000C3DA13 = 6EDEB435133B897000C3DA13 /* PBXTextBookmark */;
-			6EFA3C8F133C15AF0084CAC1 /* PBXTextBookmark */ = 6EFA3C8F133C15AF0084CAC1 /* PBXTextBookmark */;
+			6EE883B7133D2BAF00C04D94 /* PBXTextBookmark */ = 6EE883B7133D2BAF00C04D94 /* PBXTextBookmark */;
+			6EFA3C97133C995B0084CAC1 = 6EFA3C97133C995B0084CAC1 /* PBXTextBookmark */;
+			6EFA3C98133C995B0084CAC1 = 6EFA3C98133C995B0084CAC1 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 6EBE0EED133977F6005795D4 /* Source Control */;
 		userBuildSettings = {
@@ -101,9 +101,9 @@
 	};
 	6EBE0EF11339782A005795D4 /* xbox_management_server.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {966, 4485}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 4758}}";
 			sepNavSelRange = "{10236, 0}";
-			sepNavVisRange = "{4811, 893}";
+			sepNavVisRange = "{0, 678}";
 		};
 	};
 	6EBE0EF21339782A005795D4 /* xbox_management_server.h */ = {
@@ -113,33 +113,35 @@
 			sepNavVisRange = "{0, 510}";
 		};
 	};
-	6EDEB42F133B88BF00C3DA13 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		comments = "Value stored to 'waiting' is never read";
-		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
-		rLen = 1;
-		rLoc = 186;
-		rType = 1;
-	};
-	6EDEB435133B897000C3DA13 /* PBXTextBookmark */ = {
+	6EE883B7133D2BAF00C04D94 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
-		name = "xbox_management_server.c: 348";
+		name = "xbox_management_server.c: 344";
 		rLen = 0;
 		rLoc = 10236;
 		rType = 0;
-		vrLen = 976;
-		vrLoc = 4700;
+		vrLen = 678;
+		vrLoc = 0;
 	};
-	6EFA3C8F133C15AF0084CAC1 /* PBXTextBookmark */ = {
+	6EFA3C97133C995B0084CAC1 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
 		name = "xbox_management_server.c: 347";
 		rLen = 0;
 		rLoc = 10236;
 		rType = 0;
-		vrLen = 893;
-		vrLoc = 4811;
+		vrLen = 992;
+		vrLoc = 4516;
+	};
+	6EFA3C98133C995B0084CAC1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
+		name = "xbox_management_server.c: 347";
+		rLen = 0;
+		rLoc = 10236;
+		rType = 0;
+		vrLen = 678;
+		vrLoc = 0;
 	};
 	8DD76FA90486AB0100D96B5E /* Xbox-Management-Server */ = {
 		activeExec = 0;
