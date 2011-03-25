@@ -1,0 +1,159 @@
+// !$*UTF8*$!
+{
+	08FB7793FE84155DC02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 6EBE0EE9133977DB005795D4 /* Xbox-Management-Server */;
+		activeTarget = 8DD76FA90486AB0100D96B5E /* Xbox-Management-Server */;
+		addToTargets = (
+			8DD76FA90486AB0100D96B5E /* Xbox-Management-Server */,
+		);
+		codeSenseManager = 6EBE0EEE133977F6005795D4 /* Code sense */;
+		executables = (
+			6EBE0EE9133977DB005795D4 /* Xbox-Management-Server */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					788,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 322775980;
+			PBXWorkspaceStateSaveDate = 322775980;
+		};
+		perUserProjectItems = {
+			6EA61FA313397F2800011A0B = 6EA61FA313397F2800011A0B /* PBXTextBookmark */;
+			6EE883B7133D2BAF00C04D94 /* PBXTextBookmark */ = 6EE883B7133D2BAF00C04D94 /* PBXTextBookmark */;
+			6EFA3C97133C995B0084CAC1 = 6EFA3C97133C995B0084CAC1 /* PBXTextBookmark */;
+			6EFA3C98133C995B0084CAC1 = 6EFA3C98133C995B0084CAC1 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 6EBE0EED133977F6005795D4 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	6EA61FA313397F2800011A0B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EBE0EF21339782A005795D4 /* xbox_management_server.h */;
+		name = "xbox_management_server.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 510;
+		vrLoc = 0;
+	};
+	6EBE0EE9133977DB005795D4 /* Xbox-Management-Server */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = "Xbox-Management-Server";
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	6EBE0EED133977F6005795D4 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	6EBE0EEE133977F6005795D4 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	6EBE0EF11339782A005795D4 /* xbox_management_server.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {966, 4758}}";
+			sepNavSelRange = "{10236, 0}";
+			sepNavVisRange = "{0, 678}";
+		};
+	};
+	6EBE0EF21339782A005795D4 /* xbox_management_server.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {978, 1586}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 510}";
+		};
+	};
+	6EE883B7133D2BAF00C04D94 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
+		name = "xbox_management_server.c: 344";
+		rLen = 0;
+		rLoc = 10236;
+		rType = 0;
+		vrLen = 678;
+		vrLoc = 0;
+	};
+	6EFA3C97133C995B0084CAC1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
+		name = "xbox_management_server.c: 347";
+		rLen = 0;
+		rLoc = 10236;
+		rType = 0;
+		vrLen = 992;
+		vrLoc = 4516;
+	};
+	6EFA3C98133C995B0084CAC1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6EBE0EF11339782A005795D4 /* xbox_management_server.c */;
+		name = "xbox_management_server.c: 347";
+		rLen = 0;
+		rLoc = 10236;
+		rType = 0;
+		vrLen = 678;
+		vrLoc = 0;
+	};
+	8DD76FA90486AB0100D96B5E /* Xbox-Management-Server */ = {
+		activeExec = 0;
+		executables = (
+			6EBE0EE9133977DB005795D4 /* Xbox-Management-Server */,
+		);
+	};
+	C6A0FF2C0290799A04C91782 /* Xbox-Management-Server.1 */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {635, 1027}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 928}";
+		};
+	};
+}

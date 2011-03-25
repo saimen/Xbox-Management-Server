@@ -73,6 +73,7 @@
 
 #include <unistd.h>
 #include <limits.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h> //memset()
@@ -81,6 +82,7 @@
 #include <syslog.h> 
 #include <dirent.h> //scandir()
 #include <sys/stat.h> // setting permissions
+#include <pthread.h>
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -96,7 +98,7 @@
 #define SHUTDOWN_MESSAGE_SIZE	9
 
 #define PATH			"/var/run/clients/"
-
+#define PATHLEN			18
 
 #define XBOX_ESSZIMMER		"192.168.1.115"
 #define XBOX_SIMON		"192.168.1.105"
@@ -114,13 +116,15 @@
 #endif
 
 
+void* startThread(void *arg);
 bool clientKnown(const char *clientName);
-void registerBox(const char *clientName, char *path);
-int processCommunication(const int socket_fd, const char *clientName, char *path);
-void unregisterBox(const char *clientName, char *path);
+void registerBox(const char *clientName,const char *path);
+int processCommunication(const int socket_fd, const char *clientName,const char *path);
+void unregisterBox(const char *clientName,const char *path);
 int boxesRegistered(const char *path);
 void serverShutdown();
-int countEntriesInDir(const char* dirname);
+static int countEntriesInDir(const char* dirname);
+static void processMessage(const char *line, const char *path, const char *clientName, int connection);
 
 
 #endif

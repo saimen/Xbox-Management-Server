@@ -3,30 +3,46 @@
  * @author Simon Barth <Simon.Barth@gmx.de>
  */
 
+#ifndef __FreeBSD__
+#define _POSIX_C_SOURCE 200809L
+#endif
 #include "xbox_management_server.h"
 
 /* TODO: get IP's from DNS 
  */
 
+pthread_t thread;
+
+pthread_rwlock_t dir_mutex = PTHREAD_RWLOCK_INITIALIZER;
+pthread_rwlock_t threads_waiting_mutex = PTHREAD_RWLOCK_INITIALIZER;
+
+static int threads_waiting = 0;
+
+struct data {
+	int socketfd;
+	struct sockaddr_in *clientAddress;
+	char path[PATHLEN];
+};
+
 int main(int argc, char **argv) {
+	(void) argc;
 	int sockfd, newSocket;
+<<<<<<< HEAD
 	char clientName[INET_ADDRESTRELEN];
 	struct sockaddr_in clientAddress, serverAddress;
 	socklen_t clientLength = sizeof(clientAddress);
 	char* path;
 	int nread = -1; 
+=======
+	struct sockaddr_in serverAddress;
+	socklen_t clientLength = sizeof(struct sockaddr_in);
+>>>>>>> threads
 	
 
 	openlog(argv[0], LOG_CONS, LOG_USER);
 	
-	if( (path = (char *)malloc(sizeof(char)*33)) == NULL ) {
-		syslog(LOG_ERR, "Couldn't allocate memory for filepath");
-	}
-	strcpy(path, PATH);
-
-
 	if( (sockfd = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
-		/* loggen und so und fehlerbehandlugn */
+		/* loggen und so und fehlerbehandlung */
 		syslog(LOG_ERR, "Failure at opening socket");
 	}
 
@@ -51,6 +67,7 @@ int main(int argc, char **argv) {
 
 	while(true) {
 
+<<<<<<< HEAD
 		/* warten auf eingehende verbindungen */
 		if( (newSocket = accept(sockfd, (struct sockaddr*) &clientAddress, &clientLength)) < 0 ) {
 			/* logging and error handling */
@@ -83,14 +100,79 @@ int main(int argc, char **argv) {
 			syslog(LOG_ERR, "Couldn't close connected Socket to %s", clientName);
 		}
 		/* Hier Thread beenden */
+=======
+		struct data *arg = (struct data*)malloc(sizeof(struct data));
+		arg->clientAddress = (struct sockaddr_in*) malloc(sizeof(struct sockaddr_in));		
+
+		/* warten auf eingehende verbindungen */
+		if( (newSocket = accept(sockfd, (struct sockaddr *)arg->clientAddress, &clientLength)) < 0 ) {
+				/* logging and error handling */
+			syslog(LOG_ERR, "error while accepting");
+		}		
+		arg->socketfd = newSocket;
+		strcpy(arg->path, PATH);
+		pthread_create(&thread, NULL, &startThread, arg);
 
 	}
-	free(path);
 	syslog(LOG_INFO, "Closing socket");
 	closelog();
 	exit(EXIT_SUCCESS);
 
 }
+
+/**
+ * Exithandler.....
+ *
+ *
+ */
+void exit_handler_mem(void *arg) {
+	struct data *mem = (struct data*) arg;
+	free(mem->clientAddress);
+	free(mem);
+}
+
+/**
+ * Threadfunction......
+ *
+ *
+ */
+void* startThread(void *arg) {
+	pthread_detach(pthread_self());
+	struct data *client = (struct data *) arg;
+	pthread_cleanup_push( exit_handler_mem, (void *)arg );
+	char *clientName = (char *)malloc((sizeof(char) * INET_ADDRESTRELEN));
+	int nread = -1; 
+>>>>>>> threads
+
+	if( (inet_ntop(AF_INET, &client->clientAddress->sin_addr.s_addr, clientName, INET_ADDRESTRELEN) == NULL ) ) {
+		/* logging and error handling */
+		syslog(LOG_ERR, "error at determining client information");
+	}
+	
+	syslog(LOG_INFO, "Connected to %s", clientName);
+	if ( clientKnown(clientName) ) {
+		nread = processCommunication(client->socketfd, clientName, client->path);
+	}else{
+		syslog(LOG_INFO, "Unknown Client");
+	}
+
+
+	if( nread == 0 ) {
+		/* verbindung von client geschlossen */
+		syslog(LOG_INFO, "Client %s has closed connection", clientName);
+	}else{
+		syslog(LOG_ERR, "read");
+	}
+
+	if( close(client->socketfd) < 0 ){
+		/* logging and error handling */
+		syslog(LOG_ERR, "Couldn't close connected Socket to %s", clientName);
+	}
+	free(clientName);
+	pthread_cleanup_pop( 1 );
+	pthread_exit((void *)pthread_self());
+}
+
 
 /**
  * Checks if a client is known to the server. This check is performed by the client's IP-Address
@@ -121,22 +203,50 @@ bool clientKnown(const char *clientName) {
  * @param path a char pointer, pointing to a c-string that contains the path in wich the clients
  * 	are administered
  */
-void registerBox(const char *clientName, char *path) {
-	
+void registerBox(const char *clientName,const char *path) {
 	if ( opendir(path) == NULL ) {
 		mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
 	}
+	// DONE: make threadsafe
+	// DONE: create directory if it doesn't exist
+	// TODO: check if file allready exists
+	char* registry_path;
+	bool waiting = false;
+	if ( (registry_path = (char *)malloc(sizeof(char)*33)) == NULL ) {
+		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
+	}
+	strcpy(registry_path, path);
 
 	mode_t permissions = S_IRUSR|S_IWUSR|S_IRGRP;
-	strcat(path, clientName);
-	if ( open(path, O_CREAT, permissions ) < 0) {
+	strcat(registry_path, clientName);
+	
+	// note that threads wants to register, so server isn't shut
+	// down while by another thread while this one is queued
+	while( (pthread_rwlock_trywrlock(&dir_mutex) == EBUSY) ){
+		if (!waiting ) {
+			pthread_rwlock_wrlock(&threads_waiting_mutex);
+			threads_waiting += 1;
+			waiting = true;
+			pthread_rwlock_unlock(&threads_waiting_mutex);
+		}
+	}
+	if( waiting ) {
+		pthread_rwlock_wrlock(&threads_waiting_mutex);
+		threads_waiting -= 1;
+		pthread_rwlock_unlock(&threads_waiting_mutex);
+	}
+
+	if ( open(registry_path, O_CREAT, permissions ) < 0) {
 		/* logging and error handling */
 		syslog(LOG_ERR, "Couldn't create file representing Xbox");
 	}
 	else {
 		syslog(LOG_DEBUG, "file created");
 	}
-	strcpy(path, PATH);
+	
+	pthread_rwlock_unlock(&dir_mutex);
+
+	free(registry_path);
 }
 
 /** implementation of the management protocoll. 
@@ -145,52 +255,22 @@ void registerBox(const char *clientName, char *path) {
  * 	in human readable form
  * @param path a char pointer to the path in which the clients are administered
  */
-int processCommunication(const int socket_fd, const char *clientName, char *path) {
-	char line[MAX_MSG];
-	char answer[ANSWER_SIZE];
-	int byteread;
+int processCommunication(const int socket_fd, const char *clientName,const char *path) {
+	// TODO: split to subfunctions
+	// DONE: make thread safe
+	char *line = (char *)malloc(sizeof(char) * MAX_MSG);
+	int bytesread;
 	memset(line, '\0', MAX_MSG);
-	while( (byteread=read(socket_fd, line, MAX_MSG) ) > 0) {
+	while( (bytesread=read(socket_fd, line, MAX_MSG) ) > 0) {
 		/* hier das protokoll implememtieren */
 
 		syslog(LOG_INFO, "Client is: %s and sent %s", clientName, line); 
 		
-		if( (strcmp("startup", line) ) == 0){
-			syslog(LOG_DEBUG, "startup was sent");
-			registerBox(clientName, path);
-		}
-
-		else if( (strcmp("shutdown", line) ) == 0){
-			syslog(LOG_DEBUG, "shutdown was sent");
-				
-			unregisterBox(clientName, path);
-
-			if ( boxesRegistered(path) == 0 ) {
-				syslog(LOG_INFO, "Server is shut down by xbox_management_server");
-				/* Nachricht an client senden dass server heruntergefahren wird */
-				memset(answer, '\0', ANSWER_SIZE);
-				strcpy(answer, "off");
-				send(socket_fd, answer, ANSWER_SIZE, 0); 
-				serverShutdown();
-			}
-				
-			else{
-				/* Nachricht an client senden, dass server NICHT herunter gefahren wird */
-				syslog(LOG_INFO, "Server recieved shut down message but there are still clients registered");
-				memset(answer, '\0', ANSWER_SIZE);
-				strcpy(answer, "on");
-				send(socket_fd, answer, ANSWER_SIZE, 0);
-			}
-
-		}
-
-		else {
-			syslog(LOG_ERR, "Unknown message");
-		}
-		
-		memset(line, '\0', MAX_MSG);			
+		processMessage(line, path, clientName, socket_fd);			
+		memset(line, '\0', MAX_MSG);
 	}
-	return byteread;
+	free(line);
+	return bytesread;
 }
 
 /**
@@ -202,13 +282,23 @@ int processCommunication(const int socket_fd, const char *clientName, char *path
  * @param path a char pointer, pointing to a c-string which cointains the path in which the clients
  * 	are administered
  */
-void unregisterBox(const char *clientName, char *path) {
-	strcat(path, clientName);
-	if ( remove(path) < 0) {
+void unregisterBox(const char *clientName,const char *path) {
+	//DONE: make thread safe
+	//TODO: check if path and file exist
+	char* registry_path;
+	if ( (registry_path = (char *)malloc(sizeof(char)*33)) == NULL ) {
+		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
+	}
+	strcpy(registry_path, path);
+
+	strcat(registry_path, clientName);
+	pthread_rwlock_wrlock(&dir_mutex);
+	if ( remove(registry_path) < 0) {
 		/* logging and error handling */
 		syslog(LOG_ERR, "Couldn't remove file representing Xbox");
 	}
-	strcpy(path, PATH);
+	pthread_rwlock_unlock(&dir_mutex);
+	free(registry_path);
 }
 
 /**
@@ -219,13 +309,23 @@ void unregisterBox(const char *clientName, char *path) {
  * @return integer representing the number of registerd clients
  */
 int boxesRegistered(const char *path) {
-	return (countEntriesInDir(path) - 2);
+	// DONE: make thread safe
+	// TODO: catch case if directory doesn't exist
+	int ret;
+	pthread_rwlock_rdlock(&dir_mutex);
+	ret = countEntriesInDir(path) - 2;
+	pthread_rwlock_unlock(&dir_mutex);
+	return ret;
 }
 
 /**
  * Shuts down the host which is running xbox_management_server.
  */
 void serverShutdown() {
+	if ( getuid() != (uid_t)0 ) {
+		syslog(LOG_ERR, "Process is not privileged to shut down the computer");
+		return;
+	}
 	if ( execl("/sbin/init", "init", "0", (char *)0) == -1 ){
 		syslog(LOG_ERR, "Couldn't initiate shut down sequence");
 	}
@@ -243,12 +343,58 @@ void serverShutdown() {
  * @warning the special entries "." and ".." are also counted so that the minimum return value of
  * 	this function is 2.
  */
-int countEntriesInDir(const char *dirname) {
+static int countEntriesInDir(const char *dirname) {
         int n=0;
-        struct dirent* d;
         DIR* dir = opendir(dirname);
         if (dir == NULL) return 0;
-        while((d = readdir(dir))!=NULL) n++;
+        while((readdir(dir))!=NULL) n++;
         closedir(dir);
         return n;
+}
+
+/**
+ *
+ *
+ *
+ */
+static void processMessage(const char *line, const char *path, const char *clientName, int connection) {
+
+	char *answer = (char *)malloc(sizeof(char) * ANSWER_SIZE);
+	
+	if( (strcmp("startup", line) ) == 0){
+		syslog(LOG_DEBUG, "startup was sent");
+		registerBox(clientName, path);
+	}
+
+	else if( (strcmp("shutdown", line) ) == 0){
+		syslog(LOG_DEBUG, "shutdown was sent");
+			
+		unregisterBox(clientName, path);
+
+		pthread_rwlock_rdlock(&threads_waiting_mutex);
+		// check if there are any other clients registered or other
+		// threads waiting to register new ones
+		if ( (boxesRegistered(path) == 0) && (threads_waiting == 0) ) {
+			syslog(LOG_INFO, "Server is shut down by xbox_management_server");
+			/* Nachricht an client senden dass server heruntergefahren wird */
+			memset(answer, '\0', ANSWER_SIZE);
+			strcpy(answer, "off");
+			send(connection, answer, ANSWER_SIZE, 0); 
+			serverShutdown();
+		}
+		else{
+			/* Nachricht an client senden, dass server NICHT herunter gefahren wird */
+			syslog(LOG_INFO, "Server recieved shut down message but there are still clients registered");
+			memset(answer, '\0', ANSWER_SIZE);
+			strcpy(answer, "on");
+			send(connection, answer, ANSWER_SIZE, 0);
+		}
+		pthread_rwlock_unlock(&threads_waiting_mutex);	
+
+	}
+
+	else {
+		syslog(LOG_ERR, "Unknown message");
+	}
+	free(answer);
 }
