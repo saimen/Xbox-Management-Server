@@ -18,10 +18,16 @@ pthread_rwlock_t threads_waiting_mutex = PTHREAD_RWLOCK_INITIALIZER;
 
 static int threads_waiting = 0;
 
+/**
+ * \struct data
+ * A structure that contains connection data
+ */
 struct data {
-	int socketfd;
-	struct sockaddr_in *clientAddress;
-	char path[PATHLEN];
+	/*@{*/
+	int socketfd; /**< the file descriptor of the connected socket */
+	struct sockaddr_in *clientAddress; /**< the IP-Address of the connected client */
+	char path[PATHLEN]; /**< the path in wich the clients are registered */
+	/*@}*/
 };
 
 int main(int argc, char **argv) {
@@ -79,9 +85,9 @@ int main(int argc, char **argv) {
 }
 
 /**
- * Exithandler.....
+ * Frees memory behind *arg
  *
- *
+ * @param arg a pointer to a struct data structure
  */
 void exit_handler_mem(void *arg) {
 	struct data *mem = (struct data*) arg;
@@ -90,9 +96,9 @@ void exit_handler_mem(void *arg) {
 }
 
 /**
- * Threadfunction......
+ * Startfunction of connection handling threads
  *
- *
+ * @param arg a pointer to a structure of type data
  */
 void* startThread(void *arg) {
 	pthread_detach(pthread_self());
@@ -310,9 +316,12 @@ static int countEntriesInDir(const char *dirname) {
 }
 
 /**
+ * handles the message sent by the client
  *
- *
- *
+ * @param line message sent by client
+ * @param path path to which clients are registered
+ * @param clientName IP-Address of client
+ * @param connection file-descriptor of connected socket
  */
 static void processMessage(const char *line, const char *path, const char *clientName, int connection) {
 

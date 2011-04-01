@@ -48,6 +48,16 @@
  */
 
 /**
+ * @def PATH
+ * The path where the files that represent registered clients are saved to
+ */
+
+/**
+ * @def PATHLEN
+ * The length of the string representing the path with the '\0' character
+ */
+
+/**
  * @def XBOX_ESSZIMMER
  * IP-Address of a client
  */
