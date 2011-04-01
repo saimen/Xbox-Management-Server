@@ -1,3 +1,13 @@
 .vimprojects
 xbox_management.tar.gz
 .DS_Store
+Xbox-Management-Server/Xbox-Management-Server.xcodeproj/saimen.mode1v3
+Xbox-Management-Server/Xbox-Management-Server.xcodeproj/saimen.pbxuser
+Xbox-Management-Server/build
+doc
+*.log
+*.swp
+*.o
+*.gcno
+xbox_management_server
+xbox_management_server_debug
