@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -57,6 +58,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#_details">More...</a></p>
 <code>#include &lt;unistd.h&gt;</code><br/>
 <code>#include &lt;limits.h&gt;</code><br/>
+<code>#include &lt;errno.h&gt;</code><br/>
 <code>#include &lt;stdlib.h&gt;</code><br/>
 <code>#include &lt;stdbool.h&gt;</code><br/>
 <code>#include &lt;string.h&gt;</code><br/>
@@ -65,6 +67,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;syslog.h&gt;</code><br/>
 <code>#include &lt;dirent.h&gt;</code><br/>
 <code>#include &lt;sys/stat.h&gt;</code><br/>
+<code>#include &lt;pthread.h&gt;</code><br/>
 <code>#include &lt;sys/socket.h&gt;</code><br/>
 <code>#include &lt;arpa/inet.h&gt;</code><br/>
 <code>#include &lt;netinet/in.h&gt;</code><br/>
@@ -101,6 +104,9 @@ Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#adb328c5bda134b4183492624ccaedef3">SHUTDOWN_MESSAGE_SIZE</a>&#160;&#160;&#160;9</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of a shutdown message including the terminal symbol '\0'.  <a href="#adb328c5bda134b4183492624ccaedef3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#ab0139008fdda107456f13f837872b410">PATH</a>&#160;&#160;&#160;&quot;/var/run/clients/&quot;</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The path where the files that represent registered clients are saved to.  <a href="#ab0139008fdda107456f13f837872b410"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#a306ffcae7edd4e8e4f5779ad8359ee1c">PATHLEN</a>&#160;&#160;&#160;18</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The length of the string representing the path with the '\0' character.  <a href="#a306ffcae7edd4e8e4f5779ad8359ee1c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#acf319b936574276524626d2ccef3fab8">XBOX_ESSZIMMER</a>&#160;&#160;&#160;&quot;192.168.1.115&quot;</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">IP-Address of a client.  <a href="#acf319b936574276524626d2ccef3fab8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#a69b0cd714e8e543c6a5bf6ae833d155b">XBOX_SIMON</a>&#160;&#160;&#160;&quot;192.168.1.105&quot;</td></tr>
@@ -111,20 +117,20 @@ Defines</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">IP-Address of the management server.  <a href="#a28d06fc286f28044ed3380969700ff3f"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#af6491856e14c9fb18b0a050f430cbb44">startThread</a> (void *arg)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Startfunction of connection handling threads.  <a href="#af6491856e14c9fb18b0a050f430cbb44"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#a0bec75368f90a5f5af7ddd72c1535466">clientKnown</a> (const char *clientName)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a client is known to the server.  <a href="#a0bec75368f90a5f5af7ddd72c1535466"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#addb9a5df5db473ed3573506f4f2d6759">registerBox</a> (const char *clientName, char *path)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a client on the server.  <a href="#addb9a5df5db473ed3573506f4f2d6759"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#ac2a6945fa65c42dae512210a15370afb">processCommunication</a> (const int socket_fd, const char *clientName, char *path)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">implementation of the management protocoll.  <a href="#ac2a6945fa65c42dae512210a15370afb"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#a5c680b9a4495cf97aefcf1beb81d0880">unregisterBox</a> (const char *clientName, char *path)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregister a client from the server.  <a href="#a5c680b9a4495cf97aefcf1beb81d0880"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#a9947a9c9052f31e963a4f3d154b54a2b">registerBox</a> (const char *clientName, const char *path)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a client on the server.  <a href="#a9947a9c9052f31e963a4f3d154b54a2b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#a06388acd55ac925c4f10eb179bcded8b">processCommunication</a> (const int socket_fd, const char *clientName, const char *path)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">implementation of the management protocoll.  <a href="#a06388acd55ac925c4f10eb179bcded8b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#ae8ab7e1d9be16beef06d3505a5c7fbc5">unregisterBox</a> (const char *clientName, const char *path)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregister a client from the server.  <a href="#ae8ab7e1d9be16beef06d3505a5c7fbc5"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#a2c357670bd36b1d206a2aafb503dec61">boxesRegistered</a> (const char *path)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A small wrapper for <a class="el" href="xbox__management__server_8c.html#a62999d5c7a5f6535a7e8b04bdf7d5560" title="Counts how many entries exist in a directory.">countEntriesInDir()</a> which returns the amount of registered clients.  <a href="#a2c357670bd36b1d206a2aafb503dec61"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A small wrapper for countEntriesInDir() which returns the amount of registered clients.  <a href="#a2c357670bd36b1d206a2aafb503dec61"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#aed8d885a72ba6196da40f280367f47d5">serverShutdown</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuts down the host which is running xbox_management_server.  <a href="#aed8d885a72ba6196da40f280367f47d5"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox__management__server_8h.html#a62999d5c7a5f6535a7e8b04bdf7d5560">countEntriesInDir</a> (const char *dirname)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Counts how many entries exist in a directory.  <a href="#a62999d5c7a5f6535a7e8b04bdf7d5560"></a><br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>This header-file includes all necessary headers and makes all defines needed by <a class="el" href="xbox__management__server_8c.html" title="Server to manage xbox clients.">xbox_management_server.c</a>. </p>
@@ -145,7 +151,7 @@ Functions</h2></td></tr>
 
 <p>maximum length of the answer </p>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00091">91</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00103">103</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -162,7 +168,7 @@ Functions</h2></td></tr>
 
 <p>The length of an IP-Address. </p>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00089">89</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00101">101</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -179,7 +185,7 @@ Functions</h2></td></tr>
 
 <p>IP-Address of test-client. </p>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00111">111</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00123">123</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -196,7 +202,7 @@ Functions</h2></td></tr>
 
 <p>Buffer size for maximum message length. </p>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00090">90</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00102">102</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -211,7 +217,26 @@ Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00098">98</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>The path where the files that represent registered clients are saved to. </p>
+
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00110">110</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a306ffcae7edd4e8e4f5779ad8359ee1c"></a><!-- doxytag: member="xbox_management_server.h::PATHLEN" ref="a306ffcae7edd4e8e4f5779ad8359ee1c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PATHLEN&#160;&#160;&#160;18</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>The length of the string representing the path with the '\0' character. </p>
+
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00111">111</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -228,7 +253,7 @@ Functions</h2></td></tr>
 
 <p>IP-Address of the management server. </p>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00112">112</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00124">124</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -245,7 +270,7 @@ Functions</h2></td></tr>
 
 <p>Port on wich the server listens. </p>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00092">92</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00104">104</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -262,7 +287,7 @@ Functions</h2></td></tr>
 
 <p>The size of a shutdown message including the terminal symbol '\0'. </p>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00096">96</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00108">108</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -279,7 +304,7 @@ Functions</h2></td></tr>
 
 <p>The size of a startup message including the terminal symbol '\0'. </p>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00095">95</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00107">107</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -296,7 +321,7 @@ Functions</h2></td></tr>
 
 <p>IP-Address of a client. </p>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00101">101</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00113">113</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -311,7 +336,7 @@ Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00071">71</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00081">81</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -328,7 +353,7 @@ Functions</h2></td></tr>
 
 <p>IP-Address of a client. </p>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00102">102</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8h_source.html#l00114">114</a> of file <a class="el" href="xbox__management__server_8h_source.html">xbox_management_server.h</a>.</p>
 
 </div>
 </div>
@@ -348,7 +373,7 @@ Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>A small wrapper for <a class="el" href="xbox__management__server_8c.html#a62999d5c7a5f6535a7e8b04bdf7d5560" title="Counts how many entries exist in a directory.">countEntriesInDir()</a> which returns the amount of registered clients. </p>
+<p>A small wrapper for countEntriesInDir() which returns the amount of registered clients. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>a constant char pointer which points to a c-string containing the path of the directory in which the clients are administered. </td></tr>
@@ -357,25 +382,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>integer representing the number of registerd clients </dd></dl>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00221">221</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
-
-<p><!-- startSectionHeader --><div class="dynheader">
-Here is the call graph for this function:<!-- endSectionHeader --></div>
-<!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
-<div class="center"><img src="xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61_cgraph.png" border="0" usemap="#xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61_cgraph" alt=""/></div>
-<map name="xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61_cgraph" id="xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61_cgraph">
-<area shape="rect" href="xbox__management__server_8c.html#a62999d5c7a5f6535a7e8b04bdf7d5560" title="Counts how many entries exist in a directory." alt="" coords="195,5,339,32"/></map>
-<!-- endSectionContent --></div>
-</p>
-
-<p><!-- startSectionHeader --><div class="dynheader">
-Here is the caller graph for this function:<!-- endSectionHeader --></div>
-<!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
-<div class="center"><img src="xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61_icgraph.png" border="0" usemap="#xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61_icgraph" alt=""/></div>
-<map name="xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61_icgraph" id="xbox__management__server_8h_a2c357670bd36b1d206a2aafb503dec61_icgraph">
-<area shape="rect" href="xbox__management__server_8h.html#ac2a6945fa65c42dae512210a15370afb" title="implementation of the management protocoll." alt="" coords="196,5,388,32"/><area shape="rect" href="xbox__management__server_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="437,5,496,32"/></map>
-<!-- endSectionContent --></div>
-</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00274">274</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
 
 </div>
 </div>
@@ -404,58 +411,20 @@ Here is the caller graph for this function:<!-- endSectionHeader --></div>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>a boolean signaling if the client is known or not </dd></dl>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00102">102</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00147">147</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
 
 <p><!-- startSectionHeader --><div class="dynheader">
 Here is the caller graph for this function:<!-- endSectionHeader --></div>
 <!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
 <div class="center"><img src="xbox__management__server_8h_a0bec75368f90a5f5af7ddd72c1535466_icgraph.png" border="0" usemap="#xbox__management__server_8h_a0bec75368f90a5f5af7ddd72c1535466_icgraph" alt=""/></div>
 <map name="xbox__management__server_8h_a0bec75368f90a5f5af7ddd72c1535466_icgraph" id="xbox__management__server_8h_a0bec75368f90a5f5af7ddd72c1535466_icgraph">
-<area shape="rect" href="xbox__management__server_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="163,5,221,32"/></map>
+<area shape="rect" href="xbox__management__server_8h.html#af6491856e14c9fb18b0a050f430cbb44" title="Startfunction of connection handling threads." alt="" coords="164,5,268,32"/><area shape="rect" href="xbox__management__server_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="317,5,376,32"/></map>
 <!-- endSectionContent --></div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a62999d5c7a5f6535a7e8b04bdf7d5560"></a><!-- doxytag: member="xbox_management_server.h::countEntriesInDir" ref="a62999d5c7a5f6535a7e8b04bdf7d5560" args="(const char *dirname)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int countEntriesInDir </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"> <em>dirname</em>&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Counts how many entries exist in a directory. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dirname</td><td>is a constant char pointer which points to a c-string that contains the path of the directory which's content shall be counted. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>an integer representing the number of entries inside the directory </dd></dl>
-<dl class="warning"><dt><b>Warning:</b></dt><dd>the special entries "." and ".." are also counted so that the minimum return value of this function is 2. </dd></dl>
-
-<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00246">246</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
-
-<p><!-- startSectionHeader --><div class="dynheader">
-Here is the caller graph for this function:<!-- endSectionHeader --></div>
-<!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
-<div class="center"><img src="xbox__management__server_8h_a62999d5c7a5f6535a7e8b04bdf7d5560_icgraph.png" border="0" usemap="#xbox__management__server_8h_a62999d5c7a5f6535a7e8b04bdf7d5560_icgraph" alt=""/></div>
-<map name="xbox__management__server_8h_a62999d5c7a5f6535a7e8b04bdf7d5560_icgraph" id="xbox__management__server_8h_a62999d5c7a5f6535a7e8b04bdf7d5560_icgraph">
-<area shape="rect" href="xbox__management__server_8h.html#a2c357670bd36b1d206a2aafb503dec61" title="A small wrapper for countEntriesInDir() which returns the amount of registered clients." alt="" coords="197,5,339,32"/><area shape="rect" href="xbox__management__server_8h.html#ac2a6945fa65c42dae512210a15370afb" title="implementation of the management protocoll." alt="" coords="388,5,580,32"/><area shape="rect" href="xbox__management__server_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="629,5,688,32"/></map>
-<!-- endSectionContent --></div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="ac2a6945fa65c42dae512210a15370afb"></a><!-- doxytag: member="xbox_management_server.h::processCommunication" ref="ac2a6945fa65c42dae512210a15370afb" args="(const int socket_fd, const char *clientName, char *path)" -->
+<a class="anchor" id="a06388acd55ac925c4f10eb179bcded8b"></a><!-- doxytag: member="xbox_management_server.h::processCommunication" ref="a06388acd55ac925c4f10eb179bcded8b" args="(const int socket_fd, const char *clientName, const char *path)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -474,7 +443,7 @@ Here is the caller graph for this function:<!-- endSectionHeader --></div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char *&#160;</td>
+          <td class="paramtype">const char *&#160;</td>
           <td class="paramname"> <em>path</em>&#160;</td>
         </tr>
         <tr>
@@ -496,29 +465,20 @@ Here is the caller graph for this function:<!-- endSectionHeader --></div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00148">148</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
-
-<p><!-- startSectionHeader --><div class="dynheader">
-Here is the call graph for this function:<!-- endSectionHeader --></div>
-<!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
-<div class="center"><img src="xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb_cgraph.png" border="0" usemap="#xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb_cgraph" alt=""/></div>
-<map name="xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb_cgraph" id="xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb_cgraph">
-<area shape="rect" href="xbox__management__server_8c.html#a2c357670bd36b1d206a2aafb503dec61" title="A small wrapper for countEntriesInDir() which returns the amount of registered clients." alt="" coords="248,5,389,32"/><area shape="rect" href="xbox__management__server_8c.html#addb9a5df5db473ed3573506f4f2d6759" title="Register a client on the server." alt="" coords="268,56,369,83"/><area shape="rect" href="xbox__management__server_8c.html#aed8d885a72ba6196da40f280367f47d5" title="Shuts down the host which is running xbox_management_server." alt="" coords="251,107,387,133"/><area shape="rect" href="xbox__management__server_8c.html#a5c680b9a4495cf97aefcf1beb81d0880" title="Unregister a client from the server." alt="" coords="259,157,379,184"/><area shape="rect" href="xbox__management__server_8c.html#a62999d5c7a5f6535a7e8b04bdf7d5560" title="Counts how many entries exist in a directory." alt="" coords="437,5,581,32"/></map>
-<!-- endSectionContent --></div>
-</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00221">221</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
 
 <p><!-- startSectionHeader --><div class="dynheader">
 Here is the caller graph for this function:<!-- endSectionHeader --></div>
 <!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
-<div class="center"><img src="xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb_icgraph.png" border="0" usemap="#xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb_icgraph" alt=""/></div>
-<map name="xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb_icgraph" id="xbox__management__server_8h_ac2a6945fa65c42dae512210a15370afb_icgraph">
-<area shape="rect" href="xbox__management__server_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="248,5,307,32"/></map>
+<div class="center"><img src="xbox__management__server_8h_a06388acd55ac925c4f10eb179bcded8b_icgraph.png" border="0" usemap="#xbox__management__server_8h_a06388acd55ac925c4f10eb179bcded8b_icgraph" alt=""/></div>
+<map name="xbox__management__server_8h_a06388acd55ac925c4f10eb179bcded8b_icgraph" id="xbox__management__server_8h_a06388acd55ac925c4f10eb179bcded8b_icgraph">
+<area shape="rect" href="xbox__management__server_8h.html#af6491856e14c9fb18b0a050f430cbb44" title="Startfunction of connection handling threads." alt="" coords="249,5,353,32"/><area shape="rect" href="xbox__management__server_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="403,5,461,32"/></map>
 <!-- endSectionContent --></div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="addb9a5df5db473ed3573506f4f2d6759"></a><!-- doxytag: member="xbox_management_server.h::registerBox" ref="addb9a5df5db473ed3573506f4f2d6759" args="(const char *clientName, char *path)" -->
+<a class="anchor" id="a9947a9c9052f31e963a4f3d154b54a2b"></a><!-- doxytag: member="xbox_management_server.h::registerBox" ref="a9947a9c9052f31e963a4f3d154b54a2b" args="(const char *clientName, const char *path)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -531,7 +491,7 @@ Here is the caller graph for this function:<!-- endSectionHeader --></div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char *&#160;</td>
+          <td class="paramtype">const char *&#160;</td>
           <td class="paramname"> <em>path</em>&#160;</td>
         </tr>
         <tr>
@@ -553,16 +513,7 @@ Here is the caller graph for this function:<!-- endSectionHeader --></div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00124">124</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
-
-<p><!-- startSectionHeader --><div class="dynheader">
-Here is the caller graph for this function:<!-- endSectionHeader --></div>
-<!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
-<div class="center"><img src="xbox__management__server_8h_addb9a5df5db473ed3573506f4f2d6759_icgraph.png" border="0" usemap="#xbox__management__server_8h_addb9a5df5db473ed3573506f4f2d6759_icgraph" alt=""/></div>
-<map name="xbox__management__server_8h_addb9a5df5db473ed3573506f4f2d6759_icgraph" id="xbox__management__server_8h_addb9a5df5db473ed3573506f4f2d6759_icgraph">
-<area shape="rect" href="xbox__management__server_8h.html#ac2a6945fa65c42dae512210a15370afb" title="implementation of the management protocoll." alt="" coords="159,5,351,32"/><area shape="rect" href="xbox__management__server_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="400,5,459,32"/></map>
-<!-- endSectionContent --></div>
-</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00169">169</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
 
 </div>
 </div>
@@ -582,20 +533,56 @@ Here is the caller graph for this function:<!-- endSectionHeader --></div>
 
 <p>Shuts down the host which is running xbox_management_server. </p>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00228">228</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00287">287</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af6491856e14c9fb18b0a050f430cbb44"></a><!-- doxytag: member="xbox_management_server.h::startThread" ref="af6491856e14c9fb18b0a050f430cbb44" args="(void *arg)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* startThread </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"> <em>arg</em>&#160;)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Startfunction of connection handling threads. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>a pointer to a structure of type data </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00103">103</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
+
+<p><!-- startSectionHeader --><div class="dynheader">
+Here is the call graph for this function:<!-- endSectionHeader --></div>
+<!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
+<div class="center"><img src="xbox__management__server_8h_af6491856e14c9fb18b0a050f430cbb44_cgraph.png" border="0" usemap="#xbox__management__server_8h_af6491856e14c9fb18b0a050f430cbb44_cgraph" alt=""/></div>
+<map name="xbox__management__server_8h_af6491856e14c9fb18b0a050f430cbb44_cgraph" id="xbox__management__server_8h_af6491856e14c9fb18b0a050f430cbb44_cgraph">
+<area shape="rect" href="xbox__management__server_8c.html#a0bec75368f90a5f5af7ddd72c1535466" title="Checks if a client is known to the server." alt="" coords="203,5,312,32"/><area shape="rect" href="xbox__management__server_8c.html#a4908b6b5f5fe90a1babc04cb3f0d2707" title="Frees memory behind *arg." alt="" coords="180,56,335,83"/><area shape="rect" href="xbox__management__server_8c.html#a06388acd55ac925c4f10eb179bcded8b" title="implementation of the management protocoll." alt="" coords="161,107,353,133"/></map>
+<!-- endSectionContent --></div>
+</p>
 
 <p><!-- startSectionHeader --><div class="dynheader">
 Here is the caller graph for this function:<!-- endSectionHeader --></div>
 <!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
-<div class="center"><img src="xbox__management__server_8h_aed8d885a72ba6196da40f280367f47d5_icgraph.png" border="0" usemap="#xbox__management__server_8h_aed8d885a72ba6196da40f280367f47d5_icgraph" alt=""/></div>
-<map name="xbox__management__server_8h_aed8d885a72ba6196da40f280367f47d5_icgraph" id="xbox__management__server_8h_aed8d885a72ba6196da40f280367f47d5_icgraph">
-<area shape="rect" href="xbox__management__server_8h.html#ac2a6945fa65c42dae512210a15370afb" title="implementation of the management protocoll." alt="" coords="193,5,385,32"/><area shape="rect" href="xbox__management__server_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="435,5,493,32"/></map>
+<div class="center"><img src="xbox__management__server_8h_af6491856e14c9fb18b0a050f430cbb44_icgraph.png" border="0" usemap="#xbox__management__server_8h_af6491856e14c9fb18b0a050f430cbb44_icgraph" alt=""/></div>
+<map name="xbox__management__server_8h_af6491856e14c9fb18b0a050f430cbb44_icgraph" id="xbox__management__server_8h_af6491856e14c9fb18b0a050f430cbb44_icgraph">
+<area shape="rect" href="xbox__management__server_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="160,5,219,32"/></map>
 <!-- endSectionContent --></div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a5c680b9a4495cf97aefcf1beb81d0880"></a><!-- doxytag: member="xbox_management_server.h::unregisterBox" ref="a5c680b9a4495cf97aefcf1beb81d0880" args="(const char *clientName, char *path)" -->
+<a class="anchor" id="ae8ab7e1d9be16beef06d3505a5c7fbc5"></a><!-- doxytag: member="xbox_management_server.h::unregisterBox" ref="ae8ab7e1d9be16beef06d3505a5c7fbc5" args="(const char *clientName, const char *path)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -608,7 +595,7 @@ Here is the caller graph for this function:<!-- endSectionHeader --></div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char *&#160;</td>
+          <td class="paramtype">const char *&#160;</td>
           <td class="paramname"> <em>path</em>&#160;</td>
         </tr>
         <tr>
@@ -630,16 +617,7 @@ Here is the caller graph for this function:<!-- endSectionHeader --></div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00205">205</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
-
-<p><!-- startSectionHeader --><div class="dynheader">
-Here is the caller graph for this function:<!-- endSectionHeader --></div>
-<!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
-<div class="center"><img src="xbox__management__server_8h_a5c680b9a4495cf97aefcf1beb81d0880_icgraph.png" border="0" usemap="#xbox__management__server_8h_a5c680b9a4495cf97aefcf1beb81d0880_icgraph" alt=""/></div>
-<map name="xbox__management__server_8h_a5c680b9a4495cf97aefcf1beb81d0880_icgraph" id="xbox__management__server_8h_a5c680b9a4495cf97aefcf1beb81d0880_icgraph">
-<area shape="rect" href="xbox__management__server_8h.html#ac2a6945fa65c42dae512210a15370afb" title="implementation of the management protocoll." alt="" coords="177,5,369,32"/><area shape="rect" href="xbox__management__server_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="419,5,477,32"/></map>
-<!-- endSectionContent --></div>
-</p>
+<p>Definition at line <a class="el" href="xbox__management__server_8c_source.html#l00248">248</a> of file <a class="el" href="xbox__management__server_8c_source.html">xbox_management_server.c</a>.</p>
 
 </div>
 </div>
@@ -649,7 +627,7 @@ Here is the caller graph for this function:<!-- endSectionHeader --></div>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -658,7 +636,7 @@ Here is the caller graph for this function:<!-- endSectionHeader --></div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue Mar 22 2011 18:14:42 for Xbox management server by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Fri Apr 1 2011 20:58:26 for Xbox management server by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.2 </small></address>
 </body>

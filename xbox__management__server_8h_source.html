@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -49,63 +50,67 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <a href="xbox__management__server_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
-<a name="l00070"></a>00070 <span class="preprocessor">#ifndef XBOX_MANAGEMENT_SERVER_H</span>
-<a name="l00071"></a><a class="code" href="xbox__management__server_8h.html#a03f5f55c8bf8665720eb3e9dc64178df">00071</a> <span class="preprocessor"></span><span class="preprocessor">#define XBOX_MANAGEMENT_SERVER_H XBOX_MANAGEMENT_SERVER_H</span>
-<a name="l00072"></a>00072 <span class="preprocessor"></span>
-<a name="l00073"></a>00073 
-<a name="l00074"></a>00074 <span class="preprocessor">#include &lt;unistd.h&gt;</span>
-<a name="l00075"></a>00075 <span class="preprocessor">#include &lt;limits.h&gt;</span>
-<a name="l00076"></a>00076 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
-<a name="l00077"></a>00077 <span class="preprocessor">#include &lt;stdbool.h&gt;</span>
-<a name="l00078"></a>00078 <span class="preprocessor">#include &lt;string.h&gt;</span> <span class="comment">//memset()</span>
-<a name="l00079"></a>00079 <span class="preprocessor">#include &lt;stdio.h&gt;</span> <span class="comment">//perror()</span>
-<a name="l00080"></a>00080 <span class="preprocessor">#include &lt;fcntl.h&gt;</span> <span class="comment">//open()</span>
-<a name="l00081"></a>00081 <span class="preprocessor">#include &lt;syslog.h&gt;</span> 
-<a name="l00082"></a>00082 <span class="preprocessor">#include &lt;dirent.h&gt;</span> <span class="comment">//scandir()</span>
-<a name="l00083"></a>00083 <span class="preprocessor">#include &lt;sys/stat.h&gt;</span> <span class="comment">// setting permissions</span>
-<a name="l00084"></a>00084 
-<a name="l00085"></a>00085 <span class="preprocessor">#include &lt;sys/socket.h&gt;</span>
-<a name="l00086"></a>00086 <span class="preprocessor">#include &lt;arpa/inet.h&gt;</span>
-<a name="l00087"></a>00087 <span class="preprocessor">#include &lt;netinet/in.h&gt;</span>
-<a name="l00088"></a>00088 
-<a name="l00089"></a><a class="code" href="xbox__management__server_8h.html#a4a1bbbe90c7683ccd529047da2148f99">00089</a> <span class="preprocessor">#define INET_ADDRESTRELEN       16</span>
-<a name="l00090"></a><a class="code" href="xbox__management__server_8h.html#aa24597a54a085c6c2c33b64138f09eff">00090</a> <span class="preprocessor"></span><span class="preprocessor">#define MAX_MSG                 1024</span>
-<a name="l00091"></a><a class="code" href="xbox__management__server_8h.html#a233b331cc3228a8f39e61a031aed9d02">00091</a> <span class="preprocessor"></span><span class="preprocessor">#define ANSWER_SIZE             4</span>
-<a name="l00092"></a><a class="code" href="xbox__management__server_8h.html#ac42367fe5c999ec6650de83e9d72fe8c">00092</a> <span class="preprocessor"></span><span class="preprocessor">#define SERVER_PORT             35002</span>
-<a name="l00093"></a>00093 <span class="preprocessor"></span>
-<a name="l00094"></a>00094 
-<a name="l00095"></a><a class="code" href="xbox__management__server_8h.html#afdafc94a952914caa97c249d30100b9c">00095</a> <span class="preprocessor">#define STARTUP_MESSAGE_SIZE    8</span>
-<a name="l00096"></a><a class="code" href="xbox__management__server_8h.html#adb328c5bda134b4183492624ccaedef3">00096</a> <span class="preprocessor"></span><span class="preprocessor">#define SHUTDOWN_MESSAGE_SIZE   9</span>
-<a name="l00097"></a>00097 <span class="preprocessor"></span>
-<a name="l00098"></a><a class="code" href="xbox__management__server_8h.html#ab0139008fdda107456f13f837872b410">00098</a> <span class="preprocessor">#define PATH                    &quot;/var/run/clients/&quot;</span>
-<a name="l00099"></a>00099 <span class="preprocessor"></span>
+<a name="l00080"></a>00080 <span class="preprocessor">#ifndef XBOX_MANAGEMENT_SERVER_H</span>
+<a name="l00081"></a><a class="code" href="xbox__management__server_8h.html#a03f5f55c8bf8665720eb3e9dc64178df">00081</a> <span class="preprocessor"></span><span class="preprocessor">#define XBOX_MANAGEMENT_SERVER_H XBOX_MANAGEMENT_SERVER_H</span>
+<a name="l00082"></a>00082 <span class="preprocessor"></span>
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084 <span class="preprocessor">#include &lt;unistd.h&gt;</span>
+<a name="l00085"></a>00085 <span class="preprocessor">#include &lt;limits.h&gt;</span>
+<a name="l00086"></a>00086 <span class="preprocessor">#include &lt;errno.h&gt;</span>
+<a name="l00087"></a>00087 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<a name="l00088"></a>00088 <span class="preprocessor">#include &lt;stdbool.h&gt;</span>
+<a name="l00089"></a>00089 <span class="preprocessor">#include &lt;string.h&gt;</span> <span class="comment">//memset()</span>
+<a name="l00090"></a>00090 <span class="preprocessor">#include &lt;stdio.h&gt;</span> <span class="comment">//perror()</span>
+<a name="l00091"></a>00091 <span class="preprocessor">#include &lt;fcntl.h&gt;</span> <span class="comment">//open()</span>
+<a name="l00092"></a>00092 <span class="preprocessor">#include &lt;syslog.h&gt;</span> 
+<a name="l00093"></a>00093 <span class="preprocessor">#include &lt;dirent.h&gt;</span> <span class="comment">//scandir()</span>
+<a name="l00094"></a>00094 <span class="preprocessor">#include &lt;sys/stat.h&gt;</span> <span class="comment">// setting permissions</span>
+<a name="l00095"></a>00095 <span class="preprocessor">#include &lt;pthread.h&gt;</span>
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097 <span class="preprocessor">#include &lt;sys/socket.h&gt;</span>
+<a name="l00098"></a>00098 <span class="preprocessor">#include &lt;arpa/inet.h&gt;</span>
+<a name="l00099"></a>00099 <span class="preprocessor">#include &lt;netinet/in.h&gt;</span>
 <a name="l00100"></a>00100 
-<a name="l00101"></a><a class="code" href="xbox__management__server_8h.html#acf319b936574276524626d2ccef3fab8">00101</a> <span class="preprocessor">#define XBOX_ESSZIMMER          &quot;192.168.1.115&quot;</span>
-<a name="l00102"></a><a class="code" href="xbox__management__server_8h.html#a69b0cd714e8e543c6a5bf6ae833d155b">00102</a> <span class="preprocessor"></span><span class="preprocessor">#define XBOX_SIMON              &quot;192.168.1.105&quot;</span>
-<a name="l00103"></a>00103 <span class="preprocessor"></span><span class="preprocessor">#ifdef TEST_ZW</span>
-<a name="l00104"></a>00104 <span class="preprocessor"></span><span class="preprocessor">#define MACBOOK_SIMON           &quot;192.168.1.2&quot;</span>
-<a name="l00105"></a>00105 <span class="preprocessor"></span><span class="preprocessor">#define SERVER_IP               &quot;192.168.1.2&quot;</span>
-<a name="l00106"></a>00106 <span class="preprocessor"></span><span class="preprocessor">#else</span>
-<a name="l00107"></a>00107 <span class="preprocessor"></span><span class="preprocessor">#ifdef TEST</span>
-<a name="l00108"></a>00108 <span class="preprocessor"></span><span class="preprocessor">#define MACBOOK_SIMON           &quot;192.168.1.100&quot;</span>
-<a name="l00109"></a>00109 <span class="preprocessor"></span><span class="preprocessor">#define SERVER_IP               &quot;192.168.1.100&quot;</span>
-<a name="l00110"></a>00110 <span class="preprocessor"></span><span class="preprocessor">#else</span>
-<a name="l00111"></a><a class="code" href="xbox__management__server_8h.html#ad1b8fe1ed06e71e956ce3c7b424dd359">00111</a> <span class="preprocessor"></span><span class="preprocessor">#define MACBOOK_SIMON           &quot;192.168.1.100&quot;</span>
-<a name="l00112"></a><a class="code" href="xbox__management__server_8h.html#a28d06fc286f28044ed3380969700ff3f">00112</a> <span class="preprocessor"></span><span class="preprocessor">#define SERVER_IP               &quot;192.168.1.111&quot;</span>
-<a name="l00113"></a>00113 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
-<a name="l00114"></a>00114 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
-<a name="l00115"></a>00115 <span class="preprocessor"></span>
-<a name="l00116"></a>00116 
-<a name="l00117"></a>00117 <span class="keywordtype">bool</span> <a class="code" href="xbox__management__server_8c.html#a0bec75368f90a5f5af7ddd72c1535466" title="Checks if a client is known to the server.">clientKnown</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *clientName);
-<a name="l00118"></a>00118 <span class="keywordtype">void</span> <a class="code" href="xbox__management__server_8c.html#addb9a5df5db473ed3573506f4f2d6759" title="Register a client on the server.">registerBox</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *clientName, <span class="keywordtype">char</span> *path);
-<a name="l00119"></a>00119 <span class="keywordtype">int</span> <a class="code" href="xbox__management__server_8c.html#ac2a6945fa65c42dae512210a15370afb" title="implementation of the management protocoll.">processCommunication</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> socket_fd, <span class="keyword">const</span> <span class="keywordtype">char</span> *clientName, <span class="keywordtype">char</span> *path);
-<a name="l00120"></a>00120 <span class="keywordtype">void</span> <a class="code" href="xbox__management__server_8c.html#a5c680b9a4495cf97aefcf1beb81d0880" title="Unregister a client from the server.">unregisterBox</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *clientName, <span class="keywordtype">char</span> *path);
-<a name="l00121"></a>00121 <span class="keywordtype">int</span> <a class="code" href="xbox__management__server_8c.html#a2c357670bd36b1d206a2aafb503dec61" title="A small wrapper for countEntriesInDir() which returns the amount of registered clients.">boxesRegistered</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *path);
-<a name="l00122"></a>00122 <span class="keywordtype">void</span> <a class="code" href="xbox__management__server_8c.html#aed8d885a72ba6196da40f280367f47d5" title="Shuts down the host which is running xbox_management_server.">serverShutdown</a>();
-<a name="l00123"></a>00123 <span class="keywordtype">int</span> <a class="code" href="xbox__management__server_8c.html#a62999d5c7a5f6535a7e8b04bdf7d5560" title="Counts how many entries exist in a directory.">countEntriesInDir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* dirname);
-<a name="l00124"></a>00124 
-<a name="l00125"></a>00125 
-<a name="l00126"></a>00126 <span class="preprocessor">#endif</span>
+<a name="l00101"></a><a class="code" href="xbox__management__server_8h.html#a4a1bbbe90c7683ccd529047da2148f99">00101</a> <span class="preprocessor">#define INET_ADDRESTRELEN       16</span>
+<a name="l00102"></a><a class="code" href="xbox__management__server_8h.html#aa24597a54a085c6c2c33b64138f09eff">00102</a> <span class="preprocessor"></span><span class="preprocessor">#define MAX_MSG                 1024</span>
+<a name="l00103"></a><a class="code" href="xbox__management__server_8h.html#a233b331cc3228a8f39e61a031aed9d02">00103</a> <span class="preprocessor"></span><span class="preprocessor">#define ANSWER_SIZE             4</span>
+<a name="l00104"></a><a class="code" href="xbox__management__server_8h.html#ac42367fe5c999ec6650de83e9d72fe8c">00104</a> <span class="preprocessor"></span><span class="preprocessor">#define SERVER_PORT             35002</span>
+<a name="l00105"></a>00105 <span class="preprocessor"></span>
+<a name="l00106"></a>00106 
+<a name="l00107"></a><a class="code" href="xbox__management__server_8h.html#afdafc94a952914caa97c249d30100b9c">00107</a> <span class="preprocessor">#define STARTUP_MESSAGE_SIZE    8</span>
+<a name="l00108"></a><a class="code" href="xbox__management__server_8h.html#adb328c5bda134b4183492624ccaedef3">00108</a> <span class="preprocessor"></span><span class="preprocessor">#define SHUTDOWN_MESSAGE_SIZE   9</span>
+<a name="l00109"></a>00109 <span class="preprocessor"></span>
+<a name="l00110"></a><a class="code" href="xbox__management__server_8h.html#ab0139008fdda107456f13f837872b410">00110</a> <span class="preprocessor">#define PATH                    &quot;/var/run/clients/&quot;</span>
+<a name="l00111"></a><a class="code" href="xbox__management__server_8h.html#a306ffcae7edd4e8e4f5779ad8359ee1c">00111</a> <span class="preprocessor"></span><span class="preprocessor">#define PATHLEN                 18</span>
+<a name="l00112"></a>00112 <span class="preprocessor"></span>
+<a name="l00113"></a><a class="code" href="xbox__management__server_8h.html#acf319b936574276524626d2ccef3fab8">00113</a> <span class="preprocessor">#define XBOX_ESSZIMMER          &quot;192.168.1.115&quot;</span>
+<a name="l00114"></a><a class="code" href="xbox__management__server_8h.html#a69b0cd714e8e543c6a5bf6ae833d155b">00114</a> <span class="preprocessor"></span><span class="preprocessor">#define XBOX_SIMON              &quot;192.168.1.105&quot;</span>
+<a name="l00115"></a>00115 <span class="preprocessor"></span><span class="preprocessor">#ifdef TEST_ZW</span>
+<a name="l00116"></a>00116 <span class="preprocessor"></span><span class="preprocessor">#define MACBOOK_SIMON           &quot;192.168.1.2&quot;</span>
+<a name="l00117"></a>00117 <span class="preprocessor"></span><span class="preprocessor">#define SERVER_IP               &quot;192.168.1.2&quot;</span>
+<a name="l00118"></a>00118 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00119"></a>00119 <span class="preprocessor"></span><span class="preprocessor">#ifdef TEST</span>
+<a name="l00120"></a>00120 <span class="preprocessor"></span><span class="preprocessor">#define MACBOOK_SIMON           &quot;192.168.1.100&quot;</span>
+<a name="l00121"></a>00121 <span class="preprocessor"></span><span class="preprocessor">#define SERVER_IP               &quot;192.168.1.100&quot;</span>
+<a name="l00122"></a>00122 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00123"></a><a class="code" href="xbox__management__server_8h.html#ad1b8fe1ed06e71e956ce3c7b424dd359">00123</a> <span class="preprocessor"></span><span class="preprocessor">#define MACBOOK_SIMON           &quot;192.168.1.100&quot;</span>
+<a name="l00124"></a><a class="code" href="xbox__management__server_8h.html#a28d06fc286f28044ed3380969700ff3f">00124</a> <span class="preprocessor"></span><span class="preprocessor">#define SERVER_IP               &quot;192.168.1.111&quot;</span>
+<a name="l00125"></a>00125 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00126"></a>00126 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00127"></a>00127 <span class="preprocessor"></span>
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129 <span class="keywordtype">void</span>* <a class="code" href="xbox__management__server_8c.html#af6491856e14c9fb18b0a050f430cbb44" title="Startfunction of connection handling threads.">startThread</a>(<span class="keywordtype">void</span> *arg);
+<a name="l00130"></a>00130 <span class="keywordtype">bool</span> <a class="code" href="xbox__management__server_8c.html#a0bec75368f90a5f5af7ddd72c1535466" title="Checks if a client is known to the server.">clientKnown</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *clientName);
+<a name="l00131"></a>00131 <span class="keywordtype">void</span> <a class="code" href="xbox__management__server_8c.html#a9947a9c9052f31e963a4f3d154b54a2b" title="Register a client on the server.">registerBox</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *clientName,<span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="structdata.html#a6e9a371fbde1caa621b39963dde57e2d" title="the path in wich the clients are registered">path</a>);
+<a name="l00132"></a>00132 <span class="keywordtype">int</span> <a class="code" href="xbox__management__server_8c.html#a06388acd55ac925c4f10eb179bcded8b" title="implementation of the management protocoll.">processCommunication</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> socket_fd, <span class="keyword">const</span> <span class="keywordtype">char</span> *clientName,<span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="structdata.html#a6e9a371fbde1caa621b39963dde57e2d" title="the path in wich the clients are registered">path</a>);
+<a name="l00133"></a>00133 <span class="keywordtype">void</span> <a class="code" href="xbox__management__server_8c.html#ae8ab7e1d9be16beef06d3505a5c7fbc5" title="Unregister a client from the server.">unregisterBox</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *clientName,<span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="structdata.html#a6e9a371fbde1caa621b39963dde57e2d" title="the path in wich the clients are registered">path</a>);
+<a name="l00134"></a>00134 <span class="keywordtype">int</span> <a class="code" href="xbox__management__server_8c.html#a2c357670bd36b1d206a2aafb503dec61" title="A small wrapper for countEntriesInDir() which returns the amount of registered clients.">boxesRegistered</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="structdata.html#a6e9a371fbde1caa621b39963dde57e2d" title="the path in wich the clients are registered">path</a>);
+<a name="l00135"></a>00135 <span class="keywordtype">void</span> <a class="code" href="xbox__management__server_8c.html#aed8d885a72ba6196da40f280367f47d5" title="Shuts down the host which is running xbox_management_server.">serverShutdown</a>();
+<a name="l00136"></a>00136 <span class="keyword">static</span> <span class="keywordtype">int</span> countEntriesInDir(<span class="keyword">const</span> <span class="keywordtype">char</span>* dirname);
+<a name="l00137"></a>00137 <span class="keyword">static</span> <span class="keywordtype">void</span> processMessage(<span class="keyword">const</span> <span class="keywordtype">char</span> *line, <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="structdata.html#a6e9a371fbde1caa621b39963dde57e2d" title="the path in wich the clients are registered">path</a>, <span class="keyword">const</span> <span class="keywordtype">char</span> *clientName, <span class="keywordtype">int</span> connection);
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -113,7 +118,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -122,7 +127,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue Mar 22 2011 18:14:42 for Xbox management server by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Fri Apr 1 2011 20:58:25 for Xbox management server by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.2 </small></address>
 </body>
