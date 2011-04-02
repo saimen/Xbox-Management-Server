@@ -5,7 +5,7 @@ LIBS+=-lpthread
 
 .PHONY : clean doc bundle
 
-all: xbox_management_server doc
+all: xbox_management_server 
 
 xbox_management_server: src/Server/xbox_management_server.o 
 	$(CC) $(CCFLAGS) -o $@ $? $(LIBS)
@@ -34,6 +34,6 @@ doc:
 	doxygen Doxyfile
 
 clean:
-	rm -rf src/Server/*.o xbox_management_server *.tar.gz doc/*
+	rm -rf src/Server/*.o xbox_management_server* *.tar.gz doc/* *.log
 
 
