@@ -1,5 +1,5 @@
 ## @file shutdown.py
-#  @brief This script is executed when a client is shut down to unregister him from the server.
+#  @brief This script is executed when a client is shut down to unregister it from the server.
 #
 #  @author Simon Barth <Simon.Barth@gmx.de>
 
