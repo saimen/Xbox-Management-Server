@@ -1,3 +1,8 @@
+## @file startup.py
+#  @brief This script is executed when a client is started, turns on the server if necessary, and registers it at the server 
+#
+#  @author Simon Barth <Simon.Barth@gmx.de>
+
 import time, socket, xbmcgui
 
 server_ip="192.168.1.111"
@@ -10,7 +15,9 @@ xbox_mngmnt_address=(xbox_ip, 33302)
 message="startup"
 
 
-# ping the server first
+## pings the server with IP Address server_ip on port 445(smb)
+#
+# return true if server was pingable false if server was not pingable
 def pingServer():
 	
 	# ping the server first
@@ -31,7 +38,7 @@ def pingServer():
 		del ping
 		return False
 
-##
+## shows a dialog that informs the user that the server is allready running
 #
 def isStarted():
 	dialog7=xbmcgui.Dialog()
@@ -39,7 +46,8 @@ def isStarted():
 	del dialog7
 
 
-##
+## sends a magic packet to the server, the MAC-Address of the servers NIC is currently
+# hardcoded inside of the function
 #
 def wakeUp():
 	## send wake up packet to server
@@ -55,7 +63,8 @@ def wakeUp():
 
 	# 00:0B:6A:60:79:6A = Server MAC
 
-##
+## shows a dialog that informs the user that the server is booting
+# and displays how long it will take with a progress bar
 #
 def startingServer():
 	# print waiting screen
@@ -72,11 +81,10 @@ def startingServer():
 	del dialog
 
 
-##
+## connects to the server on port 35002 and sends message (in this case startup)
 #
 def registerClient():
 	# create file on server
-	# seems to need server app 
 	try:
 		connection=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		connection.bind(xbox_mngmnt_address)
@@ -89,7 +97,7 @@ def registerClient():
 		del connection
 		return False
 
-##
+## displays a dialog that informs the user about a connection failure
 #
 def connectionFailure(error):
 	dialog=xbmcgui.Dialog()
