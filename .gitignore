@@ -11,3 +11,6 @@ doc
 *.gcno
 xbox_management_server
 xbox_management_server_debug
+*.gch
+*.plist
+Threads.trace/
