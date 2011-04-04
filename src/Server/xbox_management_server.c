@@ -64,9 +64,16 @@ int main(int argc, char **argv) {
 	}
 
 	while(true) {
-
-		struct data *arg = (struct data*)malloc(sizeof(struct data));
-		arg->clientAddress = (struct sockaddr_in*) malloc(sizeof(struct sockaddr_in));		
+		struct data *arg = NULL;
+		if( (arg = (struct data *)malloc(sizeof(struct data))) == NULL ) {
+			syslog(LOG_ERR, "error allocating memory for struct data");
+			continue;
+		} else {
+			if( (arg->clientAddress = (struct sockaddr_in *) malloc(sizeof(struct sockaddr_in))) == NULL) {
+				syslog(LOG_ERR, "error allocating memory for clientAddress");
+				continue;
+			}
+		}
 
 		/* warten auf eingehende verbindungen */
 		if( (newSocket = accept(sockfd, (struct sockaddr *)arg->clientAddress, &clientLength)) < 0 ) {
