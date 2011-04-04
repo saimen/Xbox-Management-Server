@@ -90,6 +90,8 @@ def registerClient():
 		connection.bind(xbox_mngmnt_address)
 		connection.connect(server_xbox_mngmnt)
 		connection.send(message)
+		connection.close()
+		del connection
 		return True
 	except:
 		connection.close()
