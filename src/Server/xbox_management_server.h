@@ -111,17 +111,12 @@
 
 #define XBOX_ESSZIMMER		"192.168.1.115"
 #define XBOX_SIMON		"192.168.1.105"
-#ifdef TEST_ZW
-#define MACBOOK_SIMON		"192.168.1.2"
-#define SERVER_IP		"192.168.1.2"
-#else
 #ifdef TEST
 #define MACBOOK_SIMON		"192.168.1.100"
 #define SERVER_IP		"192.168.1.100"
 #else
 #define MACBOOK_SIMON		"192.168.1.100"
 #define SERVER_IP		"192.168.1.111"
-#endif
 #endif
 
 
