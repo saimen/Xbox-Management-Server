@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 	(void) argc;
 	int sockfd, newSocket;
 	struct sockaddr_in serverAddress;
-	socklen_t clientLength = sizeof(struct sockaddr_in);
+	socklen_t clientLength = sizeof(serverAddress);
 	
 
 	openlog(argv[0], LOG_CONS, LOG_USER);
