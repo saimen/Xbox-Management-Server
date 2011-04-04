@@ -1,0 +1,12 @@
+
+serverShutdown(),unregisterBox(), registerBox(), boxesRegistered():
+	-überprüfen ob prozess mit ausreichenden privilegien gestartet wurde
+
+registerBox() und unregisterBox():
+	-überprüfen ob pfad und datei existiert
+
+boxesRegistered():
+	-prüfen ob pfad existiert
+
+clientKnown(), Ports and serverIP:
+	-get IP's from config file or DNS

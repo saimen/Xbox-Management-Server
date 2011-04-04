@@ -8,9 +8,6 @@
 #endif
 #include "xbox_management_server.h"
 
-/* TODO: get IP's from DNS 
- */
-
 pthread_t thread;
 
 pthread_rwlock_t dir_mutex = PTHREAD_RWLOCK_INITIALIZER;
@@ -183,9 +180,6 @@ void registerBox(const char *clientName,const char *path) {
 	if ( opendir(path) == NULL ) {
 		mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
 	}
-	// DONE: make threadsafe
-	// DONE: create directory if it doesn't exist
-	// TODO: check if file allready exists
 	char* registry_path;
 	bool waiting = false;
 	if ( (registry_path = (char *)malloc(sizeof(PATH) + INET_ADDRESTRELEN)) == NULL ) {
@@ -232,8 +226,6 @@ void registerBox(const char *clientName,const char *path) {
  * @param path a char pointer to the path in which the clients are administered
  */
 int processCommunication(struct data *arg) {
-	// DONE: split to subfunctions
-	// DONE: make thread safe
 	char *line = (char *)malloc(sizeof(char) * MAX_MSG);
 	int bytesread;
 	memset(line, '\0', MAX_MSG);
@@ -259,8 +251,6 @@ int processCommunication(struct data *arg) {
  * 	are administered
  */
 void unregisterBox(const char *clientName,const char *path) {
-	//DONE: make thread safe
-	//TODO: check if path and file exist
 	char* registry_path;
 	if ( (registry_path = (char *)malloc(sizeof(PATH) + INET_ADDRESTRELEN)) == NULL ) {
 		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
@@ -285,8 +275,6 @@ void unregisterBox(const char *clientName,const char *path) {
  * @return integer representing the number of registerd clients
  */
 int boxesRegistered(const char *path) {
-	// DONE: make thread safe
-	// TODO: catch case if directory doesn't exist
 	int ret;
 	pthread_rwlock_rdlock(&dir_mutex);
 	ret = countEntriesInDir(path) - 2;
