@@ -26,7 +26,7 @@ struct data {
 	/*@{*/
 	int socketfd; /**< the file descriptor of the connected socket */
 	struct sockaddr_in *clientAddress; /**< the IP-Address of the connected client */
-	char path[PATHLEN]; /**< the path in wich the clients are registered */
+	char path[sizeof(PATH)]; /**< the path in wich the clients are registered */
 	/*@}*/
 };
 
@@ -175,7 +175,7 @@ void registerBox(const char *clientName,const char *path) {
 	// TODO: check if file allready exists
 	char* registry_path;
 	bool waiting = false;
-	if ( (registry_path = (char *)malloc(sizeof(char)*33)) == NULL ) {
+	if ( (registry_path = (char *)malloc(sizeof(PATH) + INET_ADDRESTRELEN)) == NULL ) {
 		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
 	}
 	strcpy(registry_path, path);
@@ -249,7 +249,7 @@ void unregisterBox(const char *clientName,const char *path) {
 	//DONE: make thread safe
 	//TODO: check if path and file exist
 	char* registry_path;
-	if ( (registry_path = (char *)malloc(sizeof(char)*33)) == NULL ) {
+	if ( (registry_path = (char *)malloc(sizeof(PATH) + INET_ADDRESTRELEN)) == NULL ) {
 		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
 	}
 	strcpy(registry_path, path);
