@@ -26,6 +26,7 @@ struct data {
 	/*@{*/
 	int socketfd; /**< the file descriptor of the connected socket */
 	struct sockaddr_in *clientAddress; /**< the IP-Address of the connected client */
+	char *clientName; /**< the IP-Address of the connected client as string */
 	char path[PATHLEN]; /**< the path in wich the clients are registered */
 	/*@}*/
 };
@@ -66,13 +67,20 @@ int main(int argc, char **argv) {
 	while(true) {
 
 		struct data *arg = (struct data*)malloc(sizeof(struct data));
-		arg->clientAddress = (struct sockaddr_in*) malloc(sizeof(struct sockaddr_in));		
+		arg->clientAddress = (struct sockaddr_in*)malloc(sizeof(struct sockaddr_in));
+		arg->clientName = (char *)malloc(sizeof(char) * INET_ADDRESTRELEN);
 
 		/* warten auf eingehende verbindungen */
 		if( (newSocket = accept(sockfd, (struct sockaddr *)arg->clientAddress, &clientLength)) < 0 ) {
-				/* logging and error handling */
+			/* logging and error handling */
 			syslog(LOG_ERR, "error while accepting");
-		}		
+		}
+
+		if( (inet_ntop(AF_INET, &arg->clientAddress->sin_addr.s_addr, arg->clientName, INET_ADDRESTRELEN) == NULL ) ) {
+			/* logging and error handling */
+			syslog(LOG_ERR, "error at determining client information");
+		}
+
 		arg->socketfd = newSocket;
 		strcpy(arg->path, PATH);
 		pthread_create(&thread, NULL, &startThread, arg);
@@ -92,6 +100,7 @@ int main(int argc, char **argv) {
 void exit_handler_mem(void *arg) {
 	struct data *mem = (struct data*) arg;
 	free(mem->clientAddress);
+	free(mem->clientName);
 	free(mem);
 }
 
@@ -104,17 +113,11 @@ void* startThread(void *arg) {
 	pthread_detach(pthread_self());
 	struct data *client = (struct data *) arg;
 	pthread_cleanup_push( exit_handler_mem, (void *)arg );
-	char *clientName = (char *)malloc((sizeof(char) * INET_ADDRESTRELEN));
 	int nread = -1; 
 
-	if( (inet_ntop(AF_INET, &client->clientAddress->sin_addr.s_addr, clientName, INET_ADDRESTRELEN) == NULL ) ) {
-		/* logging and error handling */
-		syslog(LOG_ERR, "error at determining client information");
-	}
-	
-	syslog(LOG_INFO, "Connected to %s", clientName);
-	if ( clientKnown(clientName) ) {
-		nread = processCommunication(client->socketfd, clientName, client->path);
+	syslog(LOG_INFO, "Connected to %s", client->clientName);
+	if ( clientKnown(client->clientName) ) {
+		nread = processCommunication(client);
 	}else{
 		syslog(LOG_INFO, "Unknown Client");
 	}
@@ -122,16 +125,15 @@ void* startThread(void *arg) {
 
 	if( nread == 0 ) {
 		/* verbindung von client geschlossen */
-		syslog(LOG_INFO, "Client %s has closed connection", clientName);
+		syslog(LOG_INFO, "Client %s has closed connection", client->clientName);
 	}else{
 		syslog(LOG_ERR, "read");
 	}
 
 	if( close(client->socketfd) < 0 ){
 		/* logging and error handling */
-		syslog(LOG_ERR, "Couldn't close connected Socket to %s", clientName);
+		syslog(LOG_ERR, "Couldn't close connected Socket to %s", client->clientName);
 	}
-	free(clientName);
 	pthread_cleanup_pop( 1 );
 	pthread_exit((void *)pthread_self());
 }
@@ -218,18 +220,18 @@ void registerBox(const char *clientName,const char *path) {
  * 	in human readable form
  * @param path a char pointer to the path in which the clients are administered
  */
-int processCommunication(const int socket_fd, const char *clientName,const char *path) {
-	// TODO: split to subfunctions
+int processCommunication(struct data *arg) {
+	// DONE: split to subfunctions
 	// DONE: make thread safe
 	char *line = (char *)malloc(sizeof(char) * MAX_MSG);
 	int bytesread;
 	memset(line, '\0', MAX_MSG);
-	while( (bytesread=read(socket_fd, line, MAX_MSG) ) > 0) {
+	while( (bytesread=read(arg->socketfd, line, MAX_MSG) ) > 0) {
 		/* hier das protokoll implememtieren */
 
-		syslog(LOG_INFO, "Client is: %s and sent %s", clientName, line); 
+		syslog(LOG_INFO, "Client is: %s and sent %s", arg->clientName, line); 
 		
-		processMessage(line, path, clientName, socket_fd);			
+		processMessage(line, arg);
 		memset(line, '\0', MAX_MSG);
 	}
 	free(line);
@@ -323,29 +325,29 @@ static int countEntriesInDir(const char *dirname) {
  * @param clientName IP-Address of client
  * @param connection file-descriptor of connected socket
  */
-static void processMessage(const char *line, const char *path, const char *clientName, int connection) {
+static void processMessage(const char *line, const struct data *arg) {
 
 	char *answer = (char *)malloc(sizeof(char) * ANSWER_SIZE);
 	
 	if( (strcmp("startup", line) ) == 0){
 		syslog(LOG_DEBUG, "startup was sent");
-		registerBox(clientName, path);
+		registerBox(arg->clientName, arg->path);
 	}
 
 	else if( (strcmp("shutdown", line) ) == 0){
 		syslog(LOG_DEBUG, "shutdown was sent");
 			
-		unregisterBox(clientName, path);
+		unregisterBox(arg->clientName, arg->path);
 
 		pthread_rwlock_rdlock(&threads_waiting_mutex);
 		// check if there are any other clients registered or other
 		// threads waiting to register new ones
-		if ( (boxesRegistered(path) == 0) && (threads_waiting == 0) ) {
+		if ( (boxesRegistered(arg->path) == 0) && (threads_waiting == 0) ) {
 			syslog(LOG_INFO, "Server is shut down by xbox_management_server");
 			/* Nachricht an client senden dass server heruntergefahren wird */
 			memset(answer, '\0', ANSWER_SIZE);
 			strcpy(answer, "off");
-			send(connection, answer, ANSWER_SIZE, 0); 
+			send(arg->socketfd, answer, ANSWER_SIZE, 0); 
 			serverShutdown();
 		}
 		else{
@@ -353,7 +355,7 @@ static void processMessage(const char *line, const char *path, const char *clien
 			syslog(LOG_INFO, "Server recieved shut down message but there are still clients registered");
 			memset(answer, '\0', ANSWER_SIZE);
 			strcpy(answer, "on");
-			send(connection, answer, ANSWER_SIZE, 0);
+			send(arg->socketfd, answer, ANSWER_SIZE, 0);
 		}
 		pthread_rwlock_unlock(&threads_waiting_mutex);	
 
