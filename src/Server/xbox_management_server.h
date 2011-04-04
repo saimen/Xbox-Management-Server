@@ -119,16 +119,17 @@
 #define SERVER_IP		"192.168.1.111"
 #endif
 
+struct data;
 
 void* startThread(void *arg);
 bool clientKnown(const char *clientName);
 void registerBox(const char *clientName,const char *path);
-int processCommunication(const int socket_fd, const char *clientName,const char *path);
+int processCommunication(struct data *arg);
 void unregisterBox(const char *clientName,const char *path);
 int boxesRegistered(const char *path);
 void serverShutdown();
 static int countEntriesInDir(const char* dirname);
-static void processMessage(const char *line, const char *path, const char *clientName, int connection);
+static void processMessage(const char *line, const struct data *arg);
 
 
 #endif
