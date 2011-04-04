@@ -1,3 +1,9 @@
+-Signal handling
+-set MAC-Address in variable
+-make script configurable
+-config file support
+
+
 
 serverShutdown(),unregisterBox(), registerBox(), boxesRegistered():
 	-überprüfen ob prozess mit ausreichenden privilegien gestartet wurde
