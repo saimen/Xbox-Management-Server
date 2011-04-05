@@ -238,7 +238,7 @@ void registerBox(const char *clientName,const char *path) {
 			break;
 		case ENOENT:
 			syslog(LOG_INFO, "Directory which holds the registry files doesn't exist");
-			if(mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ) = -1){
+			if(mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ) == -1){
 				syslog(LOG_ERR, "Couldn't create directory because of: %s", strerror(errno));
 				return;
 			}
@@ -313,6 +313,9 @@ int processCommunication(struct data *arg) {
 		
 		processMessage(line, arg);
 		memset(line, '\0', MAX_MSG);
+	}
+	if(bytesread < 0) {
+		syslog(LOG_ERR, "Error while recieving message from client: %s", strerror(errno));
 	}
 	free(line);
 	return bytesread;
