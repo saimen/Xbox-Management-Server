@@ -331,7 +331,7 @@ int processCommunication(struct data *arg) {
  * 	are administered
  */
 void unregisterBox(const char *clientName,const char *path) {
-	char* registry_path;
+	char* registry_path = NULL;
 	if ( (registry_path = (char *)malloc(sizeof(PATH) + INET_ADDRESTRELEN)) == NULL ) {
 		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
 	}
@@ -341,7 +341,7 @@ void unregisterBox(const char *clientName,const char *path) {
 	pthread_rwlock_wrlock(&dir_mutex);
 	if ( remove(registry_path) < 0) {
 		/* logging and error handling */
-		syslog(LOG_ERR, "Couldn't remove file representing Xbox");
+		syslog(LOG_ERR, "Couldn't remove file representing Xbox, because: %s", strerror(errno));
 	}
 	pthread_rwlock_unlock(&dir_mutex);
 	free(registry_path);
@@ -388,11 +388,18 @@ void serverShutdown() {
  * 	this function is 2.
  */
 static int countEntriesInDir(const char *dirname) {
-        int n=0;
-        DIR* dir = opendir(dirname);
-        if (dir == NULL) return 0;
-        while((readdir(dir))!=NULL) n++;
-        closedir(dir);
+        int n = 0;
+        DIR *dir = NULL;
+	if((dir = opendir(dirname)) == NULL) {
+    		syslog(LOG_ERR, "Couldn't open directory: %s", strerror(errno));
+		return 0;
+	}
+        while(readdir(dir)!=NULL) {
+		n++;
+	}
+        if(closedir(dir) < 0) {
+		syslog(LOG_DEBUG, "Couldn't close directory: %s", strerror(errno));
+	}
         return n;
 }
 
@@ -440,7 +447,6 @@ static void processMessage(const char *line, const struct data *arg) {
 			}
 			pthread_rwlock_unlock(&threads_waiting_mutex);
 		}
-
 	}
 
 	else {
