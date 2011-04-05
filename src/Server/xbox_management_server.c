@@ -52,7 +52,20 @@ int main(int argc, char **argv) {
 	syslog(LOG_DEBUG, "Binding socket");
 	if( bind(sockfd, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0 ) {
 		/* logging and error handling */
-		syslog(LOG_ERR, "Failure binding to socket");
+		switch(errno) {
+		case EADDRINUSE:
+			syslog(LOG_ERR, "Either there is another program listening on the same port and address," 
+						"or there is another instance of this program already started");
+			break;
+		case EADDRNOTAVAIL:
+			syslog(LOG_ERR, "This host has no interface whis is asigned the IP: %s", SERVER_IP);
+			break;
+		case EISCONN:
+			syslog(LOG_ERR, "This socket is already connected");
+			break;
+		default:
+			syslog(LOG_ERR, "Unknown error while binding to %s:%d", SERVER_IP, SERVER_PORT);
+		}
 	}
 	
 	syslog(LOG_DEBUG, "Listening on %s:%d", SERVER_IP, SERVER_PORT);
@@ -72,7 +85,7 @@ int main(int argc, char **argv) {
 				continue;
 			}
 
-			if( (arg->clientName = (char *)malloc(sizeof(char) * INET_ADDRESTRELEN)) == NULL) {
+			if( (arg->clientName = (char *) calloc(INET_ADDRESTRELEN, sizeof(char))) == NULL) {
 				syslog(LOG_ERR, "error allocating memory for clientName");
 				continue;
 			}
@@ -81,17 +94,48 @@ int main(int argc, char **argv) {
 		/* warten auf eingehende verbindungen */
 		if( (newSocket = accept(sockfd, (struct sockaddr *)arg->clientAddress, &clientLength)) < 0 ) {
 			/* logging and error handling */
-			syslog(LOG_ERR, "error while accepting");
+			switch(errno) {
+			case ECONNABORTED:
+				syslog(LOG_ERR, "Connection has been aborted");
+				break;
+			case EINTR:
+				syslog(LOG_ERR, "accept() was interrupted by a signal");
+				break;
+			case ENOMEM:
+				syslog(LOG_ERR, "not enough memory");
+				break;
+			case EPROTO:
+				syslog(LOG_ERR, "A protocol error has occured");
+				break;
+			default:
+				syslog(LOG_ERR, "Unknown error");
+			}
 		}
 
 		if( (inet_ntop(AF_INET, &arg->clientAddress->sin_addr.s_addr, arg->clientName, INET_ADDRESTRELEN) == NULL ) ) {
 			/* logging and error handling */
-			syslog(LOG_ERR, "error at determining client information");
+			switch(errno) {
+			case EAFNOSUPPORT:
+				syslog(LOG_ERR, "Addressfamily not supported by inet_ntop()");
+				break;
+			case ENOSPC:
+				syslog(LOG_ERR, "Not enough memory allocated to store Address");
+				break;
+			default:
+				syslog(LOG_ERR, "Unknown error at determining client information");
+			}
 		}
 
 		arg->socketfd = newSocket;
 		strcpy(arg->path, PATH);
-		pthread_create(&thread, NULL, &startThread, arg);
+		while(pthread_create(&thread, NULL, &startThread, arg) != 0) {
+			if(errno == EAGAIN) {
+				syslog(LOG_ERR, "Not enough ressources left to create thread. Retrying");
+				continue;
+			} else {
+				break;
+			}
+		}
 
 	}
 	syslog(LOG_INFO, "Closing socket");
@@ -140,7 +184,17 @@ void* startThread(void *arg) {
 
 	if( close(client->socketfd) < 0 ){
 		/* logging and error handling */
-		syslog(LOG_ERR, "Couldn't close connected Socket to %s", client->clientName);
+		syslog(LOG_ERR, "Couldn't close Socket connected to %s", client->clientName);
+		switch(errno) {
+		case EINTR:
+			syslog(LOG_ERR, "close() was interrupted by a signal");
+			break;
+		case EBADF:
+			syslog(LOG_ERR, "client->socketfd is not a valid file descriptor");
+			break;
+		default:
+			syslog(LOG_ERR, "Unknown error");
+		}
 	}
 	pthread_cleanup_pop( 1 );
 	pthread_exit((void *)pthread_self());
@@ -182,7 +236,7 @@ void registerBox(const char *clientName,const char *path) {
 	}
 	char* registry_path;
 	bool waiting = false;
-	if ( (registry_path = (char *)malloc(sizeof(PATH) + INET_ADDRESTRELEN)) == NULL ) {
+	if ( (registry_path = (char *) calloc(INET_ADDRESTRELEN, sizeof(PATH))) == NULL ) {
 		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
 	}
 	strcpy(registry_path, path);
@@ -226,10 +280,13 @@ void registerBox(const char *clientName,const char *path) {
  * @param path a char pointer to the path in which the clients are administered
  */
 int processCommunication(struct data *arg) {
-	char *line = (char *)malloc(sizeof(char) * MAX_MSG);
+	char *line = NULL;
+	if( (line = (char *)calloc(MAX_MSG, sizeof(char))) == NULL ){
+		syslog(LOG_ERR, "error at allocating memory to buffer recieved message");
+	}
 	int bytesread;
 	memset(line, '\0', MAX_MSG);
-	while( (bytesread=read(arg->socketfd, line, MAX_MSG) ) > 0) {
+	while( (bytesread=recv(arg->socketfd, line, MAX_MSG, 0) ) > 0) {
 		/* hier das protokoll implememtieren */
 
 		syslog(LOG_INFO, "Client is: %s and sent %s", arg->clientName, line); 
@@ -325,9 +382,11 @@ static int countEntriesInDir(const char *dirname) {
  * @param connection file-descriptor of connected socket
  */
 static void processMessage(const char *line, const struct data *arg) {
-
-	char *answer = (char *)malloc(sizeof(char) * ANSWER_SIZE);
-	
+	char *answer = NULL;
+	if( (answer = (char *)calloc(ANSWER_SIZE, sizeof(char))) == NULL) {
+		syslog(LOG_ERR, "error allocating memory to buffer the answer");
+	}
+	memset(answer, '\0', ANSWER_SIZE);
 	if( (strcmp("startup", line) ) == 0){
 		syslog(LOG_DEBUG, "startup was sent");
 		registerBox(arg->clientName, arg->path);
@@ -344,7 +403,6 @@ static void processMessage(const char *line, const struct data *arg) {
 		if ( (boxesRegistered(arg->path) == 0) && (threads_waiting == 0) ) {
 			syslog(LOG_INFO, "Server is shut down by xbox_management_server");
 			/* Nachricht an client senden dass server heruntergefahren wird */
-			memset(answer, '\0', ANSWER_SIZE);
 			strcpy(answer, "off");
 			send(arg->socketfd, answer, ANSWER_SIZE, 0); 
 			serverShutdown();
@@ -352,7 +410,6 @@ static void processMessage(const char *line, const struct data *arg) {
 		else{
 			/* Nachricht an client senden, dass server NICHT herunter gefahren wird */
 			syslog(LOG_INFO, "Server recieved shut down message but there are still clients registered");
-			memset(answer, '\0', ANSWER_SIZE);
 			strcpy(answer, "on");
 			send(arg->socketfd, answer, ANSWER_SIZE, 0);
 		}
