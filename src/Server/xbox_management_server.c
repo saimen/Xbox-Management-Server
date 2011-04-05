@@ -420,23 +420,26 @@ static void processMessage(const char *line, const struct data *arg) {
 			
 		unregisterBox(arg->clientName, arg->path);
 
-		pthread_rwlock_rdlock(&threads_waiting_mutex);
 		// check if there are any other clients registered or other
 		// threads waiting to register new ones
-		if ( (boxesRegistered(arg->path) == 0) && (threads_waiting == 0) ) {
-			syslog(LOG_INFO, "Server is shut down by xbox_management_server");
-			/* Nachricht an client senden dass server heruntergefahren wird */
-			strcpy(answer, "off");
-			send(arg->socketfd, answer, ANSWER_SIZE, 0); 
-			serverShutdown();
+		if ( (boxesRegistered(arg->path) == 0) ) {
+			pthread_rwlock_rdlock(&threads_waiting_mutex);
+			if(threads_waiting == 0) {
+				syslog(LOG_INFO, "Server is shut down by xbox_management_server");
+				/* Nachricht an client senden dass server heruntergefahren wird */
+				memset(answer, '\0', ANSWER_SIZE);
+				strcpy(answer, "off");
+				send(arg->socketfd, answer, ANSWER_SIZE, 0);
+				serverShutdown();
+			}else{
+				/* Nachricht an client senden, dass server NICHT herunter gefahren wird */
+				syslog(LOG_INFO, "Server recieved shut down message but there are still clients registered");
+				memset(answer, '\0', ANSWER_SIZE);
+				strcpy(answer, "on");
+				send(arg->socketfd, answer, ANSWER_SIZE, 0);
+			}
+			pthread_rwlock_unlock(&threads_waiting_mutex);
 		}
-		else{
-			/* Nachricht an client senden, dass server NICHT herunter gefahren wird */
-			syslog(LOG_INFO, "Server recieved shut down message but there are still clients registered");
-			strcpy(answer, "on");
-			send(arg->socketfd, answer, ANSWER_SIZE, 0);
-		}
-		pthread_rwlock_unlock(&threads_waiting_mutex);	
 
 	}
 
