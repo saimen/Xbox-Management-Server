@@ -434,14 +434,12 @@ static void processMessage(const char *line, const struct data *arg) {
 			if(threads_waiting == 0) {
 				syslog(LOG_INFO, "Server is shut down by xbox_management_server");
 				/* Nachricht an client senden dass server heruntergefahren wird */
-				memset(answer, '\0', ANSWER_SIZE);
 				strcpy(answer, "off");
 				send(arg->socketfd, answer, ANSWER_SIZE, 0);
 				serverShutdown();
 			}else{
 				/* Nachricht an client senden, dass server NICHT herunter gefahren wird */
 				syslog(LOG_INFO, "Server recieved shut down message but there are still clients registered");
-				memset(answer, '\0', ANSWER_SIZE);
 				strcpy(answer, "on");
 				send(arg->socketfd, answer, ANSWER_SIZE, 0);
 			}
