@@ -232,9 +232,25 @@ bool clientKnown(const char *clientName) {
  */
 void registerBox(const char *clientName,const char *path) {
 	if ( opendir(path) == NULL ) {
-		mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
+		switch(errno) {
+		case EACCES:
+			syslog(LOG_ERR, "Acces to directory path or directory not permited");
+			break;
+		case ENOENT:
+			syslog(LOG_INFO, "Directory which holds the registry files doesn't exist");
+			if(mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ) = -1){
+				syslog(LOG_ERR, "Couldn't create directory because of: %s", strerror(errno));
+				return;
+			}
+			break;
+		case ENOTDIR:
+			syslog(LOG_ERR, "There exists a file with the name of the registry directory");
+			break;
+		default:
+			syslog(LOG_ERR, "Unknown error");
+		}
 	}
-	char* registry_path;
+	char* registry_path = NULL;
 	bool waiting = false;
 	if ( (registry_path = (char *) calloc(INET_ADDRESTRELEN, sizeof(PATH))) == NULL ) {
 		syslog(LOG_ERR, "Couldn't allocate memory for registry_path");
@@ -248,21 +264,25 @@ void registerBox(const char *clientName,const char *path) {
 	// down while by another thread while this one is queued
 	while( (pthread_rwlock_trywrlock(&dir_mutex) == EBUSY) ){
 		if (!waiting ) {
-			pthread_rwlock_wrlock(&threads_waiting_mutex);
+			if(pthread_rwlock_wrlock(&threads_waiting_mutex) != 0) {
+				syslog(LOG_ERR, "Coldn't increase number of waiting threads");
+			}
 			threads_waiting += 1;
 			waiting = true;
 			pthread_rwlock_unlock(&threads_waiting_mutex);
 		}
 	}
 	if( waiting ) {
-		pthread_rwlock_wrlock(&threads_waiting_mutex);
+		if(pthread_rwlock_wrlock(&threads_waiting_mutex) != 0) {
+			syslog(LOG_ERR, "Coldn't decrease number of waiting threads");
+		}
 		threads_waiting -= 1;
 		pthread_rwlock_unlock(&threads_waiting_mutex);
 	}
 
 	if ( open(registry_path, O_CREAT, permissions ) < 0) {
 		/* logging and error handling */
-		syslog(LOG_ERR, "Couldn't create file representing Xbox");
+		syslog(LOG_ERR, "Couldn't create file representing Xbox because: %s", strerror(errno));
 	}
 	else {
 		syslog(LOG_DEBUG, "file created");
